@@ -3,7 +3,7 @@ web:
   command: "runserver 0.0.0.0:8012"
   environment:
       PYTHONUNBUFFERED: 0
-      DJANGO_SETTINGS_MODULE: cress.settings.base
+      DJANGO_SETTINGS_MODULE: cress.settings.dev
   entrypoint:
    - './manage.py'
   links:
