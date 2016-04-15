@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load bootstrap_tags %}
+
+{% block page_title %}
+LOGIN
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 text-center well">
+        <h2>Log in with your existing account</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <a onclick="ga('send', 'event', 'login', 'google-oauth2')" class="btn text-center" href="{% url 'social:begin' 'google-oauth2' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-google fa-3x"></i><br>Google</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5 col-md-offset-1">
+        <form class="well" id="box-local" method="POST">
+            <h2>Log in with password</h2>
+            {% csrf_token %}
+            {{ form|as_bootstrap }}
+
+            <button onclick="ga('send', 'event', 'login', 'local')" class="btn btn-sm">Sign In</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

@@ -23,10 +23,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_extensions',
-#    'django_forms_bootstrap',
+    'django_forms_bootstrap',
     'social.apps.django_app.default',
 
-#    'main',
+    'main',
 ]
 
 MIDDLEWARE_CLASSES = [
