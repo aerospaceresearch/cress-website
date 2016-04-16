@@ -33,10 +33,7 @@ docker run --name cress-nginx --net="host" --volumes-from cress-data -p 80:80 -v
 ### initial
 
 ```
-docker run --rm -ti --volumes-from cress-data --link cress-db:db -v `pwd`/cress/cress/settings/production.py:/opt/code/cress/cress/settings/production.py cress-prod bash
-
-# run this commands in docker container:
-python3 ./manage.py reset_db --settings=cress.settings.production
-python3 ./manage.py migrate --settings=cress.settings.production
-python3 ./manage.py createsuperuser --settings=cress.settings.production
+docker exec -ti cress python3 ./manage.py reset_db --settings=cress.settings.production
+docker exec -ti cress python3 ./manage.py migrate --settings=cress.settings.production
+docker exec -ti cress python3 ./manage.py createsuperuser --settings=cress.settings.production
 ```
