@@ -131,7 +131,7 @@ SOCIAL_AUTH_LOGIN_ERROR_URL = "login"
 SOCIAL_AUTH_FORCE_EMAIL_VALIDATION = True    # ??
 
 AUTHENTICATION_BACKENDS = (
-    'rules.permissions.ObjectPermissionBackend',
+#    'rules.permissions.ObjectPermissionBackend',
     'social.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -143,7 +143,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.social_user',
     'social.pipeline.user.get_username',
 
-    'users.utils.require_email',
+#    'users.utils.require_email',
     'social.pipeline.mail.mail_validation',
 
     'social.pipeline.social_auth.associate_by_email',
