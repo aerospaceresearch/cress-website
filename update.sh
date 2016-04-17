@@ -11,3 +11,5 @@ docker run --name cress-nginx --net="host" --volumes-from cress-data -p 80:80 -v
 
 echo "Cleaning up old docker images..."
 docker rmi $(docker images | grep "<none>" | awk '{print($3)}')
+
+sh notify.sh
