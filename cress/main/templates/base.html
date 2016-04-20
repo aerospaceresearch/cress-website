@@ -48,8 +48,8 @@
                         {% endif %}
                     </ul>
                    <ul class="nav navbar-nav navbar-right">
-			 <p class="navbar-text">Signed in with {{ user.email }}</p>
                          {% if user.is_authenticated %}
+			   <p class="navbar-text">Signed in with {{ user.email }}</p>
                            <li><a href="{% url 'logout' %}">Logout</a></li>
                          {% else %}
                            <li><a href="{% url 'login' %}">Login</a></li>
