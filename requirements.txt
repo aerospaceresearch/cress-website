@@ -11,3 +11,6 @@ pytest==2.8.5
 pytest-django==2.8.0
 tox==2.3.1
 pylama==7.0.7
+djangorestframework==3.3.3
+Pillow
+

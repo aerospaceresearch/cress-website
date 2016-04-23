@@ -26,7 +26,10 @@ INSTALLED_APPS = [
     'django_forms_bootstrap',
     'social.apps.django_app.default',
 
+    'rest_framework',
+    'rest_framework.authtoken',
     'main',
+    'box',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -156,3 +159,9 @@ SOCIAL_AUTH_PROTECTED_USER_FIELDS = (
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID = 1
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
