@@ -14,4 +14,4 @@ class CycleAdmin(admin.ModelAdmin):
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
-    list_display = ('image', 'cycle')
+    list_display = ('image', 'cycle', 'created')
