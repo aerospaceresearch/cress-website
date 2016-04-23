@@ -10,6 +10,9 @@ class Box(TimeStampedModel):
     def __str__(self):
         return "{s.description}".format(s=self)
 
+    class Meta:
+        verbose_name_plural = 'Boxes'
+
 
 class Cycle(TimeStampedModel):
     start_date = models.DateTimeField()
