@@ -9,5 +9,6 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        context['image'] = Photo.objects.order_by('-created').first().image
+        if Photo.objects.order_by('-created').first():
+            context['image'] = Photo.objects.order_by('-created').first().image
         return context
