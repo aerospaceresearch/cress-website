@@ -2,8 +2,8 @@ from rest_framework import (
     mixins, viewsets, parsers, permissions,
 )
 
-from .models import Photo, Sensor
-from .serializers import PhotoSerializer, SensorSerializer
+from .models import Photo, Sensor, Box
+from .serializers import PhotoSerializer, SensorSerializer, BoxActionSerializer
 
 
 class PhotoUploadViewSet(mixins.CreateModelMixin,
@@ -16,6 +16,15 @@ class PhotoUploadViewSet(mixins.CreateModelMixin,
 
 class SensorUploadViewSet(mixins.CreateModelMixin,
                           viewsets.GenericViewSet):
-#    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,)
     queryset = Sensor.objects.none()
     serializer_class = SensorSerializer
+
+
+class BoxActionViewSet(mixins.ListModelMixin,
+                       mixins.RetrieveModelMixin,
+                       viewsets.GenericViewSet):
+#    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = ()
+    queryset = Box.objects.all()
+    serializer_class = BoxActionSerializer

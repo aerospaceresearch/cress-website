@@ -39,6 +39,7 @@ class Sensor(TimeStampedModel):
     sensor_type = models.CharField(max_length=100,
                                    choices=(('DHT22', 'DHT22'),
                                             ('photoresistor', 'photoresistor'),
+                                            ('photodiode', 'photodiode'),
                                             ('FC28', 'FC28'),   # watermark
                                         ))
     value_type = models.CharField(max_length=100,
@@ -65,9 +66,13 @@ class Sensor(TimeStampedModel):
 
 
 class Action(TimeStampedModel):
+    ACTION_CHOICES = (
+        ('UV light', 'UV light'),
+        ('Water', 'Water'),
+    )
+
     action_type = models.CharField(max_length=100,
-                                   choices=(('UV light', 'UV light'),
-                                            ('Water', 'Water'),))
+                                   choices=ACTION_CHOICES)
     cycle = models.ForeignKey('Cycle', related_name='action')
     decision = models.IntegerField()
     start_time = models.DateTimeField()
