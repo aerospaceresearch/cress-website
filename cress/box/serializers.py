@@ -47,7 +47,6 @@ class BoxActionSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'action')
 
     def get_action(self, obj):
-        # is there an action for this hour?
         dt = timezone.now()
         dt = dt.replace(minute=0, second=0, microsecond=0)
         current_cycle = Cycle.objects.filter(box__id=obj.pk).order_by('modified').first()
@@ -55,6 +54,7 @@ class BoxActionSerializer(serializers.HyperlinkedModelSerializer):
         if not actions:
             dt_prev = dt.replace(hour=dt.hour - 1)
             prev_actions = Action.objects.filter(cycle=current_cycle).filter(start_time__gte=dt_prev)
+
             # create actions
             actions = []
             for action, b in Action.ACTION_CHOICES:

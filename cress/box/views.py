@@ -24,7 +24,6 @@ class SensorUploadViewSet(mixins.CreateModelMixin,
 class BoxActionViewSet(mixins.ListModelMixin,
                        mixins.RetrieveModelMixin,
                        viewsets.GenericViewSet):
-#    permission_classes = (permissions.IsAuthenticated,)
-    permission_classes = ()
+    permission_classes = (permissions.IsAuthenticated,)
     queryset = Box.objects.all()
     serializer_class = BoxActionSerializer

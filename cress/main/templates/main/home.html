@@ -16,14 +16,17 @@ user controlled plant growing
 	    <p>
 	      <img src="{{ image.url }}" class="img-responsive"/>
 	    </p>
+	    User interaction will be added later.
+{% comment %}
             {% if user.is_authenticated %}
 	      <h3>ACTION: UV light (less) (no change) (more)</h3>
 	      <h3>ACTION: Water (less) (no change) (more)</h3>
 	    {% else %}
 	      <h3>Please <a href="/login">log in</a> to participate</h3>
 	    {% endif %}
+{% endcomment %}
 	    <p style="height:100px;"/>
-            <p><a class="btn btn-lg" href="{% url "about" %}" role="button">Learn more</a></p>
+            <p><a class="btn btn-lg" href="https://2016.spaceappschallenge.org/challenges/mars/simspace/projects/cress.space" role="button">Learn more</a></p>
         </div>
     </div>
 </div>
