@@ -90,6 +90,13 @@
         <script type="text/javascript" src="{% static 'js/natural.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/material.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/ripples.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/reconnecting-websocket.min.js' %}"></script>
+
+        <script>
+            wsUrl = 'wss://' + {{ request.META.HTTP_HOST }} + '/ws';
+        </script>
+
+        <script type="text/babel" src="{% static 'js/main.js' %}"></script>
 
         {% block bottom_js %}
         {% endblock %}

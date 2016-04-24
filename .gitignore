@@ -1,3 +1,6 @@
 __pycache__
 cress/cress/settings/production.py
 cress/media
+
+*.log
+node_modules

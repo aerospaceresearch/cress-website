@@ -1,20 +1,25 @@
-web:
-  build: .
-  command: "runserver 0.0.0.0:8012"
-  environment:
-      PYTHONUNBUFFERED: 0
-      DJANGO_SETTINGS_MODULE: cress.settings.dev
-  entrypoint:
-   - './manage.py'
-  links:
-   - db
-  volumes:
-   - .:/opt/code
-  ports:
-   - "8012:8012"
-data:
-  image: aexea/aexea-base
-  volumes:
-    - /home/uid1000
-db:
-  image: postgres:9.4
+version: '2'
+
+services:
+  web:
+    build: .
+    command: "runserver 0.0.0.0:8012"
+    environment:
+        PYTHONUNBUFFERED: 0
+        DJANGO_SETTINGS_MODULE: cress.settings.dev
+    entrypoint:
+     - './manage.py'
+    links:
+     - db
+    volumes:
+     - .:/opt/code
+    ports:
+     - "8012:8012"
+  data:
+    image: aexea/aexea-base
+    volumes:
+      - /home/uid1000
+  db:
+    image: postgres:9.4
+  redis:
+    image: redis

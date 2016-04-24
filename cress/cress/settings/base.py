@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_forms_bootstrap',
     'social.apps.django_app.default',
+    'channels',
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -165,4 +166,15 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
+}
+
+# CHANNELS
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+        "ROUTING": "main.routing.channel_routing",
+    },
 }

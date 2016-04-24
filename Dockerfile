@@ -4,11 +4,16 @@ MAINTAINER Stuttgart Python Interest Group
 EXPOSE 8012
 
 USER root
-RUN apt-get update && apt-get install -y ttf-dejavu-core
+RUN curl -sL https://deb.nodesource.com/setup_5.x | bash -
+RUN apt-get update && apt-get install -y ttf-dejavu-core nodejs
 RUN easy_install3 -U pip
 
 # install uwsgi for production
 RUN pip3 install uwsgi
+
+WORKDIR /opt/code/cress
+ADD cress/package.json /opt/code/cress/package.json
+RUN npm install
 
 ADD requirements.txt /opt/code/requirements.txt
 WORKDIR /opt/code
