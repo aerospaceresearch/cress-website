@@ -18,6 +18,9 @@ class Cycle(TimeStampedModel):
     start_date = models.DateTimeField()
     plant = models.TextField()
     box = models.ForeignKey('Box', related_name='cycle')
+    water_start_level = models.IntegerField(default=50, help_text="start water level in percent")
+    uv_start_level = models.IntegerField(default=50, help_text="start uv level in percent")
+    hourly_step = models.IntegerField(default=5, help_text="change per hour in percent")
 
     def __str__(self):
         return "{s.box} {s.start_date}".format(s=self)
@@ -34,10 +37,16 @@ class Photo(TimeStampedModel):
 
 class Sensor(TimeStampedModel):
     sensor_type = models.CharField(max_length=100,
-                                   choices=(('DHT22', 'DHT22'), ))
+                                   choices=(('DHT22', 'DHT22'),
+                                            ('photoresistor', 'photoresistor'),
+                                            ('FC28', 'FC28'),   # watermark
+                                        ))
     value_type = models.CharField(max_length=100,
                                   choices=(('temperature', 'temperature [DHT22]'),
-                                           ('humidity', 'humidity [DHT22]'), ))
+                                           ('humidity', 'humidity [DHT22]'),
+                                           ('watermark', 'water mark'),
+                                           ('brightness', 'brightness'),
+                                       ))
     description = models.TextField(null=True, blank=True)
     position = models.CharField(max_length=100,
                                 choices=(('inside', 'inside'),
@@ -45,9 +54,23 @@ class Sensor(TimeStampedModel):
     unit = models.CharField(max_length=100,
                             choices=(('°C', '°C'),
                                      ('%', '%'),
-                                     ('Pa', 'Pa'), ))
+                                     ('Pa', 'Pa'),
+                                     ('-', '-'),
+                                 ))
     value = models.CharField(max_length=255)
     cycle = models.ForeignKey('Cycle', related_name='sensor')
 
     def __str__(self):
         return "{s.sensor_type} {s.position}".format(s=self)
+
+
+class Action(TimeStampedModel):
+    action_type = models.CharField(max_length=100,
+                                   choices=(('UV light', 'UV light'),
+                                            ('Water', 'Water'),))
+    cycle = models.ForeignKey('Cycle', related_name='action')
+    decision = models.IntegerField()
+    start_time = models.DateTimeField()
+
+    def __str__(self):
+        return "{s.action_type} {s.cycle}".format(s=self)
