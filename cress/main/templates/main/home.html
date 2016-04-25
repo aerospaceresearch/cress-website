@@ -16,7 +16,8 @@ user controlled plant growing
       </div>
         <div class="col-md-6">
 	    <p>
-	      <img src="{{ image.url }}" class="img-responsive"/>
+	      <img src="{{ image.image.url }}" class="img-responsive"/><br/>
+	      <span style="font-size:10px">{{ image.created }}</span>
 	    </p>
 	    User interaction will be added later.
 {% comment %}
@@ -32,7 +33,9 @@ user controlled plant growing
         </div>
         <div class="col-md-6">
 	  {% for sensor in sensors %}
-	     <p>{{ sensor.sensor_type }} [{{ sensor.position }}]: {{ sensor.value }}{% if sensor.unit != '-' %} {{ sensor.unit }}{% endif %}</p>
+	     <p>{{ sensor.sensor_type }} [{{ sensor.position }}]: {{ sensor.value }}{% if sensor.unit != '-' %} {{ sensor.unit }}{% endif %} - 
+	      <span style="font-size:10px">{{ sensor.created }}</span>
+	     </p>
 	  {% endfor %}
         </div>
     </div>
