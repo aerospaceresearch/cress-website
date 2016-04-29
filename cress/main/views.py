@@ -24,6 +24,6 @@ def latest_photo(request):
     if photo:
         return HttpResponse(json.dumps({
             'url': photo.image.url,
-            'created': photo.created
+            'created': str(photo.created)
         }))
     return HttpResponse("{}")
