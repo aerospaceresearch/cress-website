@@ -23,6 +23,7 @@ def latest_photo(request):
     photo = Photo.objects.order_by('-created').first()
     if photo:
         return HttpResponse(json.dumps({
-            'url': photo.image.url
+            'url': photo.image.url,
+            'created': photo.created
         }))
     return HttpResponse("{}")

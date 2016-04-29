@@ -18,7 +18,7 @@ user controlled plant growing
         <div class="col-md-6">
 	    <p>
 	      <img id="photo" src="{{ image.image.url }}" class="img-responsive"/><br/>
-	      <span style="font-size:10px">{{ image.created }}</span>
+	      <span id="photo_created" style="font-size:10px">{{ image.created }}</span>
 	    </p>
 	    User interaction will be added later.
 {% comment %}
@@ -53,6 +53,7 @@ user controlled plant growing
         $.get('latest_photo', function (data)
         {
           $('#photo').attr('src', jQuery.parseJSON(data).url);
+          $('#photo_created').text(jQuery.parseJSON(data).created);
         });
       }
 
