@@ -17,7 +17,7 @@ user controlled plant growing
       </div>
         <div class="col-md-6">
 	    <p>
-	      <img src="{{ image.image.url }}" class="img-responsive"/><br/>
+	      <img id="photo" src="{{ image.image.url }}" class="img-responsive"/><br/>
 	      <span style="font-size:10px">{{ image.created }}</span>
 	    </p>
 	    User interaction will be added later.
@@ -45,3 +45,24 @@ user controlled plant growing
     </div>
 </div>
 {% endblock content %}
+
+{% block bottom_js %}
+    <script type="text/javascript">
+      function load_image()
+      {
+        $.get('latest_photo', function (data)
+        {
+          $('#photo').attr('src', jQuery.parseJSON(data).url);
+        });
+      }
+
+      $(function() {
+        // 5 minutes
+        delay_ms = 1000*60*5;
+        // reload image on a timer
+        setInterval(load_image, delay_ms);
+        // also reload image when clicking on it
+        $('#photo').click(load_image);
+      });
+    </script>
+{% endblock %}
