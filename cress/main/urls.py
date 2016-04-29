@@ -9,7 +9,7 @@ from .views import HomePageView, latest_photo
 
 urlpatterns = [
     url(r'^$', HomePageView.as_view(), name='home'),
-    url(r'^latest_photo$', latest_photo, name='photojson'),
+    url(r'^latest_photo/$', latest_photo, name='photojson'),
     url(r'^about/$', TemplateView.as_view(template_name='main/about.html'), name='about'),
     url(r'^legal/$', TemplateView.as_view(template_name='main/legal.html'), name='legal'),
     url(r'^login/$', auth_views.login, {'template_name': 'main/login.html'}, name='login'),
