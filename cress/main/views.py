@@ -15,7 +15,7 @@ class HomePageView(TemplateView):
         if Photo.objects.order_by('-created').first():
             context['image'] = Photo.objects.order_by('-created').first()
         if Sensor.objects.order_by('-created').first():
-            context['sensors'] = Sensor.objects.order_by('-created')[:8]
+            context['sensors'] = Sensor.objects.order_by('-created')[:7]
         return context
 
 
