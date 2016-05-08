@@ -108,8 +108,9 @@ window.onload = function () {
                         text: "{% with x=chart_data|first %} {{ x.value_type }} {% endwith %}"
                 },
                 axisY: {
-                        minimum:{{ chart_min }},
-                        maximum:{{ chart_max }}
+                        interval:25,
+                        minimum: 0,
+                        maximum: 100
                 },
                 data: [
                 {

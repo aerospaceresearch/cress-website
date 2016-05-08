@@ -1,6 +1,5 @@
 import json
 import datetime
-from decimal import Decimal
 
 from django.views.generic.base import TemplateView
 from django.http import HttpResponse
@@ -41,9 +40,6 @@ class HomePageView(TemplateView):
             # only one value per hour.
             chart_data = chart_data.filter(created__minute=chart_data.first().created.minute).order_by('created')
             context['chart_data'] = chart_data
-            values = [Decimal(i) for i in chart_data.values_list('value', flat=True)]
-            context['chart_min'] = min(values) - 5
-            context['chart_max'] = max(values) + 5
         return context
 
 
