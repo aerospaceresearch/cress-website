@@ -15,12 +15,22 @@ user controlled plant growing
 	      shackspace BOX 1
             </h2>
       </div>
+      <div>
+	<div class="col-md-12">
+	  {% for cycle in cycle_list %}
+	  <a {% if cycle_set != cycle.pk %}href="?cycle={{ cycle.pk }}" {% endif %}class="btn btn-raised{% if cycle_set == cycle.pk %} btn-default active{% else %} btn-primary{% endif %}">{{ cycle.name }}</a>
+	  {% endfor %}
+	  <a class="btn btn-lg btn-raised btn-primary" href="https://2016.spaceappschallenge.org/challenges/mars/simspace/projects/cress.space" role="button">Learn more</a>
+	</div>
+	<div class="col-md-12">
         <div class="col-md-6">
 	    <p>
 	      <img id="photo" src="{{ image.image.url }}" class="img-responsive"/><br/>
-	      <span id="photo_created" style="font-size:10px">{{ image.created }}</span>
+	      <strong><span id="photo_created" style="font-size:10px">{{ image.created }}</span></strong>
 	    </p>
-	    User interaction will be added later.
+	    <p>
+	    User interaction will be added later when we have more test growings done.
+	    </p>
 {% comment %}
             {% if user.is_authenticated %}
 	      <h3>ACTION: UV light (less) (no change) (more)</h3>
@@ -29,8 +39,6 @@ user controlled plant growing
 	      <h3>Please <a href="/login">log in</a> to participate</h3>
 	    {% endif %}
 {% endcomment %}
-	    <p style="height:100px;"/>
-            <p><a class="btn btn-lg" href="https://2016.spaceappschallenge.org/challenges/mars/simspace/projects/cress.space" role="button">Learn more</a></p>
         </div>
         <div class="col-md-6">
 	  <div class="table-responsive">
@@ -45,6 +53,19 @@ user controlled plant growing
 	    </table>
 	  </div>
         </div>
+      </div>
+        <div>
+	    {% for image in older_images %}
+	      {% if forloop.first %}
+	      <h4>previous photos</h4>
+	      {% endif %}
+	    <p class="col-md-6">
+	      <img src="{{ image.image.url }}" class="img-responsive"/><br/>
+	      <strong><span style="font-size:10px">{{ image.created }}</span></strong>
+	    </p>
+	    {% endfor %}
+	</div>
+      </div>
     </div>
 </div>
 {% endblock content %}

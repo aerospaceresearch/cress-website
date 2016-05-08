@@ -16,11 +16,13 @@ class Box(TimeStampedModel):
 
 class Cycle(TimeStampedModel):
     start_date = models.DateTimeField()
-    plant = models.TextField()
+    plant = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, default="")
     box = models.ForeignKey('Box', related_name='cycle')
     water_start_level = models.IntegerField(default=50, help_text="start water level in percent")
     uv_start_level = models.IntegerField(default=50, help_text="start uv level in percent")
     hourly_step = models.IntegerField(default=5, help_text="change per hour in percent")
+    active = models.NullBooleanField()
 
     def __str__(self):
         return "{s.box} {s.start_date}".format(s=self)

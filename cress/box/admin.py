@@ -9,7 +9,7 @@ class BoxAdmin(admin.ModelAdmin):
 
 @admin.register(Cycle)
 class CycleAdmin(admin.ModelAdmin):
-    list_display = ('box', 'plant', 'start_date')
+    list_display = ('box', 'name', 'plant', 'start_date', 'active')
 
 
 @admin.register(Photo)
