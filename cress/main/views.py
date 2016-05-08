@@ -1,5 +1,6 @@
 import json
 import datetime
+from decimal import Decimal
 
 from django.views.generic.base import TemplateView
 from django.http import HttpResponse
@@ -36,6 +37,13 @@ class HomePageView(TemplateView):
         if sensors.first():
             if cycle_active.filter(active=True):
                 context['sensor_list'] = sensors[:7]
+            chart_data = sensors.filter(sensor_type="DHT22", value_type='humidity')
+            # only one value per hour.
+            chart_data = chart_data.filter(created__minute=chart_data.first().created.minute)
+            context['chart_data'] = chart_data
+            values = [Decimal(i) for i in chart_data.values_list('value', flat=True)]
+            context['chart_min'] = min(values) - 5
+            context['chart_max'] = max(values) + 5
         return context
 
 

@@ -58,6 +58,7 @@ user controlled plant growing
 	    </table>
 	    {% endif %}
 	  </div>
+	  <div id="chartContainer" style="height: 250px; width: 100%;"></div>
         </div>
       </div>
         <div>
@@ -96,4 +97,42 @@ user controlled plant growing
         $('#photo').click(load_image);
       });
     </script>
+
+{# plot #}
+<script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script type="text/javascript">
+
+window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+                title:{
+                        text: "{% with x=chart_data|first %} {{ x.value_type }} {% endwith %}"
+                },
+                axisY: {
+                        minimum:{{ chart_min }},
+                        maximum:{{ chart_max }}
+                },
+                data: [
+                {
+                        showInLegend: true, 
+                        legendText: "inside of box",
+                        type: "line",
+                        dataPoints: [
+{% for item in chart_data %} {% if item.position == "inside" %} { label: "{{ item.created|date:"Y-m-d" }}",  y: {{ item.value }}  },
+{% endif %} {% endfor %}
+                        ]
+                },
+                {
+                        showInLegend: true, 
+                        legendText: "outside of box",
+                        type: "line",
+                        dataPoints: [
+{% for item in chart_data %} {% if item.position == "outside" %} { label: "{{ item.created|date:"Y-m-d" }}",  y: {{ item.value }}  },
+{% endif %}{% endfor %}
+                        ]
+                }
+                ]
+        });
+        chart.render();
+}
+</script>
 {% endblock %}
