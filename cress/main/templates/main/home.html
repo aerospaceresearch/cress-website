@@ -80,6 +80,7 @@ user controlled plant growing
 {% endblock content %}
 
 {% block bottom_js %}
+{% if cycle_set == cycle.pk %}
     <script type="text/javascript">
       function load_image()
       {
@@ -99,6 +100,7 @@ user controlled plant growing
         $('#photo').click(load_image);
       });
     </script>
+{% endif %}
 
 {# plot #}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js"></script>
