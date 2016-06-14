@@ -14,7 +14,7 @@ class CycleAdmin(admin.ModelAdmin):
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
-    list_display = ('image', 'cycle', 'created')
+    list_display = ('owner', 'image', 'cycle', 'created')
 
 
 @admin.register(Sensor)
