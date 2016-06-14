@@ -40,6 +40,9 @@ class HomePageView(TemplateView):
             # only one value per hour.
             chart_data = chart_data.filter(created__minute=chart_data.first().created.minute).order_by('created')
             context['chart_data'] = chart_data
+        photos = Photo.objects.filter(cycle__box=3).order_by('-created')
+        if photos:
+            context['outside_image'] = photos.first()
         return context
 
 
