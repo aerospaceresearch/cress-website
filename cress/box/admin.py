@@ -17,7 +17,7 @@ class CycleAdmin(admin.ModelAdmin):
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
     list_display = ('owner', 'image', 'cycle', 'created', 'not_purged')
-    list_filter = ('cycle', )
+    list_filter = ('cycle', 'purged')
     actions = ('purge_images', )
 
     def not_purged(self, obj):
