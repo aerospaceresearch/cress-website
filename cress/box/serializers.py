@@ -13,7 +13,7 @@ class PhotoSerializer(serializers.HyperlinkedModelSerializer):
     def create(self, validated_data):
         box = validated_data.pop('box')
         validated_data['owner'] = self.context['request'].user
-        validated_data['cycle'] = Cycle.objects.filter(box__id=box).order_by('-modified').first()
+        validated_data['cycle'] = Cycle.objects.filter(active=True).filter(box__id=box).order_by('-modified').first()
         return super().create(validated_data)
 
 
@@ -27,7 +27,7 @@ class SensorSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         box = validated_data.pop('box')
-        validated_data['cycle'] = Cycle.objects.filter(box__id=box).order_by('-modified').first()
+        validated_data['cycle'] = Cycle.objects.filter(active=True).filter(box__id=box).order_by('-modified').first()
         return super().create(validated_data)
 
 
@@ -49,7 +49,7 @@ class BoxActionSerializer(serializers.HyperlinkedModelSerializer):
     def get_action(self, obj):
         dt = timezone.now()
         dt = dt.replace(minute=0, second=0, microsecond=0)
-        current_cycle = Cycle.objects.filter(box__id=obj.pk).order_by('-modified').first()
+        current_cycle = Cycle.objects.filter(active=True).filter(box__id=obj.pk).order_by('-modified').first()
         actions = Action.objects.filter(cycle=current_cycle).filter(start_time__gte=dt)
         if not actions:
             dt_prev = dt.replace(hour=dt.hour - 1)
