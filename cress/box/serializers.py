@@ -1,3 +1,4 @@
+import datetime
 from rest_framework import serializers
 from .models import Photo, Cycle, Sensor, Box, Action
 from django.utils import timezone
@@ -52,7 +53,7 @@ class BoxActionSerializer(serializers.HyperlinkedModelSerializer):
         current_cycle = Cycle.objects.filter(active=True).filter(box__id=obj.pk).order_by('-modified').first()
         actions = Action.objects.filter(cycle=current_cycle).filter(start_time__gte=dt)
         if not actions:
-            dt_prev = dt.replace(hour=dt.hour - 1)
+            dt_prev = dt - datetime.timedelta(hours=1)
             prev_actions = Action.objects.filter(cycle=current_cycle).filter(start_time__gte=dt_prev)
 
             # create actions
