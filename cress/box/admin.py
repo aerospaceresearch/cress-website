@@ -1,3 +1,5 @@
+import datetime
+import os.path
 from django.contrib import admin
 from .models import Box, Cycle, Photo, Sensor, Action
 
@@ -14,7 +16,26 @@ class CycleAdmin(admin.ModelAdmin):
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
-    list_display = ('owner', 'image', 'cycle', 'created')
+    list_display = ('owner', 'image', 'cycle', 'created', 'not_purged')
+    list_filter = ('cycle', )
+    actions = ('purge_images', )
+
+    def not_purged(self, obj):
+        return not obj.purged
+    not_purged.boolean = True
+
+    def purge_images(self, request, queryset):
+        yesterday = datetime.date.today() - datetime.timedelta(days=1)
+        count = 0
+        for element in queryset.exclude(created__gte=yesterday):
+            if element.image:
+                if os.path.isfile(element.image.path):
+                    os.remove(element.image.path)
+                    element.purged = True
+                    element.save()
+                    count += 1
+        self.message_user(request, "%s images were successfully purged." % count)
+    purge_images.short_description = "Purge selected images if older than yesterday"
 
 
 @admin.register(Sensor)
