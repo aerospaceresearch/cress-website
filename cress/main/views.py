@@ -33,7 +33,9 @@ class HomePageView(TemplateView):
             context['older_images'] = []
             for day in range(1, days + 1):
                 time_threshold = photo.created - datetime.timedelta(days=day)
-                context['older_images'].append(photos.exclude(purged=True).filter(created__lt=time_threshold).first())
+                img = photos.exclude(purged=True).filter(created__lt=time_threshold).first()
+                if img:
+                    context['older_images'].append(img)
         if sensors.first():
             if cycle_active.filter(active=True):
                 context['sensor_list'] = sensors[:7]
