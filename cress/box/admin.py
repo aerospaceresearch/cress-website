@@ -34,7 +34,11 @@ class PhotoAdmin(admin.ModelAdmin):
                     element.purged = True
                     element.save()
                     count += 1
-        self.message_user(request, "%s images were successfully purged." % count)
+        if count:
+            msg = "%s images were successfully purged." % count
+        else:
+            msg = "No images were purged."
+        self.message_user(request, msg)
     purge_images.short_description = "Purge selected images if older than yesterday"
 
 
