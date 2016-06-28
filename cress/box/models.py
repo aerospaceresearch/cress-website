@@ -32,6 +32,10 @@ class Photo(TimeStampedModel):
     image = models.ImageField(upload_to='photos', max_length=254)
     owner = models.ForeignKey('auth.User', related_name='image')
     cycle = models.ForeignKey('Cycle', related_name='photo')
+    purged = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ('-created', )
 
     def __str__(self):
         return "{s.image}".format(s=self)
