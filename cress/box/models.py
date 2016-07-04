@@ -83,5 +83,8 @@ class Action(TimeStampedModel):
     decision = models.IntegerField()
     start_time = models.DateTimeField()
 
+    class Meta:
+        ordering = ('-created', )
+
     def __str__(self):
         return "{s.action_type} {s.cycle}".format(s=self)
