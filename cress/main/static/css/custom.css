@@ -1,31 +1,9 @@
-body {
-    margin-top: 70px;
-}
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
 
-.footer {
-    padding-top: 5rem;
-}
-
-.btn-xs {
-    margin: 0;
-}
-
-.home-banner {
-    padding-top: 3rem;
-    padding-left: 3rem;
-    margin: 0;
-    width: 100%;
-    height: 600px;
-    background: url('../img/home_banner.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-.inline {
-    display: inline;
-}
-
-.clickable {
-    cursor: pointer;
-}
+  main {
+    flex: 1 0 auto;
+  }

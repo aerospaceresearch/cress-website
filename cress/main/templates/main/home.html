@@ -6,86 +6,115 @@ user controlled plant growing
 {% endblock %}
 
 {% block content %}
-{% if outside_image %}
-<div class="alert alert-info" role="alert">
-  <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
-    <span style="vertical-align: top">Image from outside of box
-  <a href="{{ outside_image.image.url }}" target="_blank"><img src="{{ outside_image.image.url }}" width="120" style="vertical-align: top"/></a>
-      <strong><span style="font-size:10px">{{ outside_image.created }}</span></strong></span>
 
-</div>
+      <div class="row">
+        <div class="col m4">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">cress.space</span>
+              <p>user controlled plant growing</p>
+            </div>
+            <div class="card-action">
+	      <a href="https://2016.spaceappschallenge.org/challenges/mars/simspace/projects/cress.space" role="button">Learn more</a>
+	      <a href="https://twitter.com/cress_space" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @cress_space</a>
+	      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            </div>
+          </div>
+        </div>
+
+{% if outside_image %}
+        <div class="col m4">
+          <div class="card small hoverable">
+            <div class="card-image">
+              <img src="{{ outside_image.image.url }}">
+	      <span class="card-title"></span>
+            </div>
+            <div class="card-content">
+	      <p>photo from {{ outside_image.created }} </p>
+            </div>
+	    <div class="card-action">
+              <a href="{{ outside_image.image.url }}">Image in full size</a>
+	    </div>
+          </div>
+        </div>
 {% endif %}
 
-<div class="block-area">
-  <a href="https://github.com/aerospaceresearch/cress-website"><img style="position: absolute; top: 60px; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
-    <div class="row well tile">
-      <div>
-            <h1>user controlled plant growing</h1>
-            <h2>
-	      shackspace BOX 1
-            </h2>
-      </div>
-      <div>
-	<div class="col-md-12">
-	  {% for cycle in cycle_list %}
-	  <a {% if cycle_set != cycle.pk %}href="?cycle={{ cycle.pk }}" {% endif %}class="btn btn-raised{% if cycle_set == cycle.pk %} btn-default active{% else %} btn-primary{% endif %}">{{ cycle.name }}</a>
-	  {% endfor %}
-	  <a class="btn btn-lg btn-raised btn-primary" href="https://2016.spaceappschallenge.org/challenges/mars/simspace/projects/cress.space" role="button">Learn more</a>
-	  <a class="btn btn-lg btn-raised btn-info" href="https://twitter.com/cress_space" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @cress_space</a>
-	  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div class="row">
+  <div class="col m8">
+      <div class="row">
+        <div class="col m6">
+          <div class="card small hoverable">
+            <div class="card-image">
+              <img src="{{ image.image.url }}">
+	      <span class="card-title"></span>
+            </div>
+            <div class="card-content">
+	      <p>photo from {{ image.created }}</p>
+            </div>
+	    <div class="card-action">
+              <a href="{{ image.image.url }}">Image in full size</a>
+	    </div>
+          </div>
 	</div>
-	<div class="col-md-12">
-        <div class="col-md-6">
-	    <p>
-	      <img id="photo" src="{{ image.image.url }}" class="img-responsive"/><br/>
-	      <strong><span id="photo_created" style="font-size:10px">{{ image.created }}</span></strong>
-	    </p>
-	    <p>
-	      <div class="alert alert-info">
-		<strong>
-		  User interaction will be added later when we have more test growings done.
-		</strong>
-	      </div>
-	    </p>
-{% comment %}
-            {% if user.is_authenticated %}
-	      <h3>ACTION: UV light (less) (no change) (more)</h3>
-	      <h3>ACTION: Water (less) (no change) (more)</h3>
-	    {% else %}
-	      <h3>Please <a href="/login">log in</a> to participate</h3>
-	    {% endif %}
-{% endcomment %}
-        </div>
-        <div class="col-md-6">
-	  <div class="table-responsive">
-	    {% if sensor_list %}
-	    <table class="table table-striped table-condensed">
-	      <tr><th>sensor</th><th>type</th><th>position</th><th>value</th><th>created</th></tr>
-	      {% for sensor in sensor_list %}
-	      <tr>
-		<td>{{ sensor.sensor_type }}</td><td>{{ sensor.value_type }}</td><td>{{ sensor.position }}</td><td>{{ sensor.value }}{% if sensor.unit != '-' %} {{ sensor.unit }}{% endif %}</td>
-		<td><span style="font-size:9px">{{ sensor.created }}:</span></td>
-	      </tr>
-	      {% endfor %}
-	    </table>
-	    {% endif %}
-	  </div>
-	  <div id="chartContainer" style="height: 250px; width: 100%;"></div>
-        </div>
-      </div>
-        <div>
-	    {% for image in older_images %}
-	      {% if forloop.first %}
-	      <h4>previous photos</h4>
-	      {% endif %}
-	    <p class="col-md-6">
-	      <img src="{{ image.image.url }}" class="img-responsive"/><br/>
-	      <strong><span style="font-size:10px">{{ image.created }}</span></strong>
-	    </p>
-	    {% endfor %}
+
+	<div class="col m6">
+          <div class="card">
+            <div class="card-content">
+	      <div id="chartContainer" style="height: 250px; width: 100%;"></div>
+            </div>
+	    <div class="card-action">
+	    </div>
+          </div>
 	</div>
-      </div>
+
+	{% if sensor_list %}
+	<div class="col m12">
+          <div class="card">
+            <div class="card-content">
+		<table class="table table-striped table-condensed">
+		  <thead>
+		    <tr><th>sensor</th><th>type</th><th>position</th><th>value</th><th>created</th></tr>
+		  </thead>
+		  <tbody>
+		  {% for sensor in sensor_list %}
+		  <tr>
+		    <td>{{ sensor.sensor_type }}</td><td>{{ sensor.value_type }}</td><td>{{ sensor.position }}</td><td>{{ sensor.value }}{% if sensor.unit != '-' %} {{ sensor.unit }}{% endif %}</td>
+		    <td><span style="font-size:9px">{{ sensor.created }}:</span></td>
+		  </tr>
+		  {% endfor %}
+		  </tbody>
+		</table>
+            </div>
+          </div>
+	</div>
+	{% endif %}
+
+      {% for image in older_images %}
+        <div class="col m6">
+          <div class="card small hoverable">
+            <div class="card-image">
+              <img src="{{ image.image.url }}">
+	      <span class="card-title"></span>
+            </div>
+            <div class="card-content">
+	      <p>photo from {{ image.created }}</p>
+            </div>
+	    <div class="card-action">
+              <a href="{{ image.image.url }}">Image in full size</a>
+	    </div>
+          </div>
+	</div>
+{% endfor %}
+	</div>
+  </div>
+
+  <div class="col m4">
+    <div class="collection">
+      {% for cycle in cycle_list %}
+      <a {% if cycle_set != cycle.pk %}href="?cycle={{ cycle.pk }}" {% endif %}class="collection-item{% if cycle_set == cycle.pk %} active{% endif %}">{{ cycle.name }}</a>
+      {% endfor %}
     </div>
+  </div>
 </div>
 {% endblock content %}
 
