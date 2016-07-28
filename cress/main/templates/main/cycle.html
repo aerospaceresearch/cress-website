@@ -25,7 +25,7 @@ user controlled plant growing
 	      {% endif %}
 	      {% for box in boxes %}
 	      {% if box != cycle.box %}
-	      {% with c=box.cycle.all|last %}
+	      {% with c=box.cycle.all|first %}
 	      <a href="{{ c.get_absolute_url }}" role="button">{{ box }}</a>
 	      {% endwith %}
 	      {% endif %}
