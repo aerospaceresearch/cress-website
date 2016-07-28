@@ -14,18 +14,39 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        cycle_list = Cycle.objects.exclude(active__isnull=True).filter(box=Box.objects.get(pk=1)).order_by("created")
+        cycle_list = Cycle.objects.filter(box__in=Box.objects.filter(pk__in=[1,2])).order_by("-created")
         cycle_active = cycle_list.filter(active=True)
-        if str(self.request.GET.get('cycle')).isdigit():
-            cycle_active = cycle_list.filter(pk=int(self.request.GET.get('cycle')))
-            if not cycle_active:
-                raise PermissionDenied()
-        else:
-            cycle_list = Cycle.objects.exclude(active__isnull=True).filter(box=Box.objects.get(pk=1)).order_by('start_date')
         context["cycle_list"] = cycle_list
-        context["cycle_set"] = cycle_active.first().pk
-        photos = Photo.objects.exclude(purged=True).filter(cycle=cycle_active.first()).order_by('-created')
-        sensors = Sensor.objects.filter(cycle=cycle_active.first()).order_by('-created')
+        context["cycle_active"] = cycle_active
+        photos = []
+        for cycle in cycle_active:
+            p = Photo.objects.exclude(purged=True).filter(cycle=cycle).order_by('-created').first()
+            if p:
+                photos.append(p)
+        context['photos'] = photos
+        photos = Photo.objects.exclude(purged=True).filter(cycle__box=3).order_by('-created')
+        if photos:
+            context['outside_image'] = photos.first()
+        return context
+
+
+class CycleView(TemplateView):
+
+    template_name = "main/cycle.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(CycleView, self).get_context_data(**kwargs)
+        cycle = Cycle.objects.filter(id=self.kwargs['cycle'])
+        if not cycle:
+            from django.http import Http404
+            raise Http404("Cycle does not exist")
+        cycle_active = cycle.first()
+        context["cycle"] = cycle_active
+        photos = Photo.objects.exclude(purged=True).filter(cycle=cycle_active).order_by('-created')
+        sensors = Sensor.objects.filter(cycle=cycle_active).order_by('-created')
+        context["cycle_prev"] = Cycle.objects.filter(box=cycle_active.box).filter(id__lt=cycle_active.id).order_by('-created').first()
+        context["cycle_next"] = Cycle.objects.filter(box=cycle_active.box).filter(id__gt=cycle_active.id).order_by('created').first()
+        context["boxes"] = Box.objects.filter(id__in=[1,2])
         if photos.first():
             photo = photos.first()
             context['image'] = photo
@@ -37,15 +58,12 @@ class HomePageView(TemplateView):
                 if img:
                     context['older_images'].append(img)
         if sensors.first():
-            if cycle_active.filter(active=True):
+            if cycle_active.active:
                 context['sensor_list'] = sensors[:7]
             chart_data = sensors.filter(sensor_type="DHT22", value_type='humidity')
             # only one value per hour.
             chart_data = chart_data.filter(created__minute=chart_data.first().created.minute).order_by('created')
             context['chart_data'] = chart_data
-        photos = Photo.objects.exclude(purged=True).filter(cycle__box=3).order_by('-created')
-        if photos:
-            context['outside_image'] = photos.first()
         return context
 
 

@@ -4,10 +4,11 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
-from .views import HomePageView, latest_photo
+from .views import HomePageView, CycleView, latest_photo
 
 
 urlpatterns = [
+    url(r'^cycle/(?P<cycle>[0-9]+)/$', CycleView.as_view(), name='cycle'),
     url(r'^$', HomePageView.as_view(), name='home'),
     url(r'^latest_photo/$', latest_photo, name='photojson'),
     url(r'^about/$', TemplateView.as_view(template_name='main/about.html'), name='about'),
