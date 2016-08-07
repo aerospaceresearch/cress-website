@@ -83,7 +83,7 @@ class BoxActionSerializer(serializers.HyperlinkedModelSerializer):
             # create actions
             actions = []
             for action, _ in Action.ACTION_CHOICES:
-                p = prev_actions.filter(action_type=action).first()
+                p = prev_actions.filter(action_type=action).order_by('-modified').first()
                 if p:
                     p = p.decision
                 else:
