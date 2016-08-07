@@ -75,8 +75,8 @@ class BoxActionSerializer(serializers.HyperlinkedModelSerializer):
         dt = timezone.now()
         dt = dt.replace(minute=0, second=0, microsecond=0)
         current_cycle = Cycle.objects.filter(active=True).filter(box__id=obj.pk).order_by('-modified').first()
-        actions = Action.objects.filter(cycle=current_cycle).filter(start_time__gte=dt)
-        if not actions:
+        qs_action = Action.objects.filter(cycle=current_cycle).filter(start_time__gte=dt)
+        if not qs_action:
             dt_prev = dt - datetime.timedelta(hours=1)
             prev_actions = Action.objects.filter(cycle=current_cycle).filter(start_time__gte=dt_prev)
 
@@ -99,4 +99,6 @@ class BoxActionSerializer(serializers.HyperlinkedModelSerializer):
                     'cycle': current_cycle,
                 }
                 actions.append(ActionSerializer().create(d))
+        else:
+            actions = [qs_action.filter(action_type=action).order_by('-modified').first() for action, _ in Action.ACTION_CHOICES]
         return [ActionSerializer(instance=i).data for i in actions]
