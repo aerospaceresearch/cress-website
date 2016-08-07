@@ -40,6 +40,30 @@ class ActionSerializer(serializers.ModelSerializer):
         extra_kwargs = {'cycle': {'write_only': True}}
 
 
+class BoxSerializer(serializers.ModelSerializer):
+    sensors = serializers.SerializerMethodField()
+    defaults = serializers.SerializerMethodField()
+
+    def get_defaults(self, obj):
+        current_cycle = Cycle.objects.filter(active=True).filter(box__id=obj.pk).order_by('-modified').first()
+        return {
+            'water': current_cycle.water_start_level,
+            'uv': current_cycle.uv_start_level,
+        }
+
+    def get_sensors(self, obj):
+        current_cycle = Cycle.objects.filter(active=True).filter(box__id=obj.pk).order_by('-modified').first()
+        # for now only one sensor_type
+        sensor_list = []
+        # FIXME: add code to get from all sensors newest value
+        sensor_list.append(current_cycle.sensor.filter(sensor_type='FC28', value_type="watermark", position="inside").order_by('-modified').first())
+        return SensorSerializer(sensor_list, many=True).data
+
+    class Meta:
+        model = Box
+        fields = ('id', 'sensors', 'defaults')
+
+
 class BoxActionSerializer(serializers.HyperlinkedModelSerializer):
     action = serializers.SerializerMethodField()
 
@@ -58,7 +82,7 @@ class BoxActionSerializer(serializers.HyperlinkedModelSerializer):
 
             # create actions
             actions = []
-            for action, b in Action.ACTION_CHOICES:
+            for action, _ in Action.ACTION_CHOICES:
                 p = prev_actions.filter(action_type=action).first()
                 if p:
                     p = p.decision

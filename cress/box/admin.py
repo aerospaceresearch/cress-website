@@ -68,5 +68,5 @@ class SensorAdmin(admin.ModelAdmin):
 
 @admin.register(Action)
 class ActionAdmin(admin.ModelAdmin):
-    list_display = ('action_type', 'cycle', 'decision', 'start_time')
+    list_display = ('action_type', 'cycle', 'decision', 'start_time', 'created')
     list_filter = ('action_type', 'cycle')
