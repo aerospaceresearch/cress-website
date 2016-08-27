@@ -13,4 +13,4 @@ tox==2.3.1
 pylama==7.0.7
 djangorestframework==3.3.3
 Pillow
-
+django-imagekit

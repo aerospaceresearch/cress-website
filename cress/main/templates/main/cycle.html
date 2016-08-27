@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load imagekit %}
 
 {% block page_title %}
 user controlled plant growing
@@ -37,7 +38,7 @@ user controlled plant growing
         <div class="col m4">
           <div class="card small hoverable">
             <div class="card-image">
-              <img src="{{ image.image.url }}">
+	      {% thumbnail '430x320' image.image %}
 	      <span class="card-title"></span>
             </div>
             <div class="card-content">
@@ -85,7 +86,7 @@ user controlled plant growing
         <div class="col m4">
           <div class="card small hoverable">
             <div class="card-image">
-              <img src="{{ image.image.url }}">
+	      {% thumbnail '430x320' image.image %}
 	      <span class="card-title"></span>
             </div>
             <div class="card-content">

@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_forms_bootstrap',
     'social.apps.django_app.default',
+    'imagekit',
 
     'rest_framework',
     'rest_framework.authtoken',
