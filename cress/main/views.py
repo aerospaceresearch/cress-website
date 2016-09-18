@@ -5,7 +5,7 @@ from django.views.generic.base import TemplateView
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 
-from box.models import Photo, Sensor, Cycle, Box
+from box.models import Box, Cycle, Photo, Sensor, Report
 
 
 class HomePageView(TemplateView):
@@ -42,6 +42,7 @@ class CycleView(TemplateView):
             raise Http404("Cycle does not exist")
         cycle_active = cycle.first()
         context["cycle"] = cycle_active
+        context["report"] = Report.objects.filter(cycle=cycle_active).first()
         photos = Photo.objects.exclude(purged=True).filter(cycle=cycle_active).order_by('-created')
         sensors = Sensor.objects.filter(cycle=cycle_active).order_by('-created')
         context["cycle_prev"] = Cycle.objects.filter(box=cycle_active.box).filter(id__lt=cycle_active.id).order_by('-created').first()

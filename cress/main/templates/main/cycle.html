@@ -35,6 +35,19 @@ user controlled plant growing
           </div>
         </div>
 
+	{% if report %}
+        <div class="col m4">
+          <div class="card small hoverable">
+            <div class="card-image">
+	      <span class="card-title">{{ cycle.start_date|date:'Y-m-d' }} - {{ image.created|date:'Y-m-d' }}</span>
+            </div>
+            <div class="card-content">
+	      <pre>{{ report }}</pre>
+            </div>
+          </div>
+	</div>
+	{% endif %}
+
 	{% if image.image %}
         <div class="col m4">
           <div class="card small hoverable">

@@ -92,3 +92,14 @@ class Action(TimeStampedModel):
 
     def __str__(self):
         return "{s.action_type} {s.cycle}".format(s=self)
+
+
+class Report(TimeStampedModel):
+    cycle = models.ForeignKey('Cycle', related_name='report', unique=True)
+    text = models.TextField()
+
+    class Meta:
+        ordering = ('-created', )
+
+    def __str__(self):
+        return "{s.text}".format(s=self)
