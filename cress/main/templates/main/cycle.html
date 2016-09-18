@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load imagekit %}
+{% load markup %}
 
 {% block page_title %}
 user controlled plant growing
@@ -37,12 +38,16 @@ user controlled plant growing
 
 	{% if report %}
         <div class="col m4">
-          <div class="card small hoverable">
-            <div class="card-image">
-	      <span class="card-title">{{ cycle.start_date|date:'Y-m-d' }} - {{ image.created|date:'Y-m-d' }}</span>
-            </div>
+          <div class="card hoverable">
             <div class="card-content">
-	      <pre>{{ report }}</pre>
+	      <ul class="collection">
+		<li class="collection-item">Start of cycle<span class="badge">{{ cycle.start_date|date:'Y-m-d' }}</span></li>
+		<li class="collection-item">End of cycle<span class="badge">{{ image.created|date:'Y-m-d' }}</span></li>
+		<li class="collection-item">
+		  <span class="title"><h5>Report</h5></span>
+		  {{ report|markdown }}
+		</li>
+	      </ul>
             </div>
           </div>
 	</div>
@@ -68,7 +73,7 @@ user controlled plant growing
 	<div class="col m4 s4">
           <div class="card hoverable">
             <div class="card-content">
-	      <div id="chartContainer" style="height: 250px; width: 100%;"></div>
+	      <div id="chartContainer" style="height: 210px; width: 100%;"></div>
             </div>
 	    <div class="card-action">
 	    </div>
@@ -79,7 +84,7 @@ user controlled plant growing
 	<div class="col m12">
           <div class="card hoverable">
             <div class="card-content">
-		<table class="table table-striped table-condensed">
+	      <table class="table table-striped table-condensed">
 		  <thead>
 		    <tr><th>sensor</th><th>type</th><th>position</th><th>value</th><th>created</th></tr>
 		  </thead>
@@ -97,7 +102,7 @@ user controlled plant growing
 	</div>
 	{% endif %}
 
-      {% for image in older_images %}
+	{% for image in older_images %}
         <div class="col m4">
           <div class="card small hoverable">
             <div class="card-image">
