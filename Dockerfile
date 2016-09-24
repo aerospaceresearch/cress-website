@@ -4,7 +4,7 @@ MAINTAINER Stuttgart Python Interest Group
 EXPOSE 8012
 
 USER root
-RUN apt-get update && apt-get install -y ttf-dejavu-core
+RUN apt-get update && apt-get install -y ttf-dejavu-core libpq-dev python3-dev
 RUN easy_install3 -U pip
 
 # install uwsgi for production
