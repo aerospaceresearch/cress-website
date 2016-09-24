@@ -1,4 +1,6 @@
+import markdown
 from django.db import models
+from django.utils.safestring import mark_safe
 from django_extensions.db.models import TimeStampedModel
 
 
@@ -100,6 +102,10 @@ class Report(TimeStampedModel):
 
     class Meta:
         ordering = ('-created', )
+
+    @property
+    def text_as_html(self):
+        return mark_safe(markdown.markdown(self.text))
 
     def __str__(self):
         return "{s.text}".format(s=self)

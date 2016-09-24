@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load imagekit %}
-{% load markup %}
 
 {% block page_title %}
 user controlled plant growing
@@ -45,7 +44,7 @@ user controlled plant growing
 		<li class="collection-item">End of cycle<span class="badge">{{ image.created|date:'Y-m-d' }}</span></li>
 		<li class="collection-item">
 		  <span class="title"><h5>Report</h5></span>
-		  {{ report|markdown }}
+		  {{ report.text_as_html }}
 		</li>
 	      </ul>
             </div>
