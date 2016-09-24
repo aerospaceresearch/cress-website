@@ -24,7 +24,6 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'django_forms_bootstrap',
-    'social.apps.django_app.default',
     'imagekit',
 
     'rest_framework',
@@ -43,7 +42,6 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'cress.urls'
@@ -63,8 +61,6 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
-                'social.apps.django_app.context_processors.backends',
-                'social.apps.django_app.context_processors.login_redirect',
             ],
         },
     },
@@ -129,34 +125,8 @@ STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
 
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'home'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
-SOCIAL_AUTH_LOGIN_ERROR_URL = "login"
-SOCIAL_AUTH_FORCE_EMAIL_VALIDATION = True    # ??
-
 AUTHENTICATION_BACKENDS = (
-#    'rules.permissions.ObjectPermissionBackend',
-    'social.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
-)
-
-SOCIAL_AUTH_PIPELINE = (
-
-    'social.pipeline.social_auth.social_details',
-    'social.pipeline.social_auth.social_uid',
-    'social.pipeline.social_auth.auth_allowed',
-    'social.pipeline.social_auth.social_user',
-    'social.pipeline.user.get_username',
-    'social.pipeline.user.create_user',
-    'social.pipeline.social_auth.associate_user',
-    'social.pipeline.social_auth.load_extra_data',
-    'social.pipeline.user.user_details',
-)
-
-SOCIAL_AUTH_PROTECTED_USER_FIELDS = (
-    'first_name',
-    'last_name'
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
