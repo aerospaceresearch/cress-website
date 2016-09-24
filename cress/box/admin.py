@@ -75,5 +75,5 @@ class ActionAdmin(admin.ModelAdmin):
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
     list_display = ('cycle', 'created', 'text')
-    list_filter = ('cycle',)
+    list_filter = ('cycle__box', 'cycle',)
     readonly_fields = ('modified', 'created')
