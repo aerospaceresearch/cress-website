@@ -8,6 +8,7 @@
     flex: 1 0 auto;
   }
   .report ul li {
+      min-height: 81px;
       list-style-type: square;
       margin-left: 20px;
   }
