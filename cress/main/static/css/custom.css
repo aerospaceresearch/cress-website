@@ -7,3 +7,7 @@
   main {
     flex: 1 0 auto;
   }
+  .report ul li {
+      list-style-type: square;
+      margin-left: 20px;
+  }

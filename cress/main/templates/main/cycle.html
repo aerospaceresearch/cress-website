@@ -37,7 +37,9 @@ user controlled plant growing
 		<li class="collection-item">End of cycle<span class="badge">{{ image.created|date:'Y-m-d' }}</span></li>
 		<li class="collection-item">
 		  <span class="title"><h5>Report</h5></span>
-		  {{ report.text_as_html }}
+		  <div class="report">
+		    {{ report.text_as_html }}
+		  </div>
 		</li>
 	      </ul>
             </div>
