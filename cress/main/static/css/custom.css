@@ -7,8 +7,10 @@
   main {
     flex: 1 0 auto;
   }
-  .report ul li {
+  .report {
       min-height: 81px;
+  }
+  .report ul li {
       list-style-type: square;
       margin-left: 20px;
   }
