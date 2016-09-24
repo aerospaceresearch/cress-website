@@ -18,7 +18,7 @@ class Box(TimeStampedModel):
 
 class Cycle(TimeStampedModel):
     start_date = models.DateTimeField()
-    plant = models.CharField(max_length=255)
+    plant = models.ForeignKey('Plant')
     name = models.CharField(max_length=255, default="")
     box = models.ForeignKey('Box', related_name='cycle')
     water_start_level = models.IntegerField(default=50, help_text="start water level in percent")
@@ -112,3 +112,12 @@ class Report(TimeStampedModel):
 
     def __str__(self):
         return "{s.text}".format(s=self)
+
+
+class Plant(TimeStampedModel):
+    name_en = models.CharField(max_length=255)
+    name_la = models.CharField(max_length=255)
+    wikipedia_en = models.URLField(null=True, blank=True)
+
+    def __str__(self):
+        return "{s.name_en} ({s.name_la})".format(s=self)

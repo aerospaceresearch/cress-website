@@ -1,7 +1,7 @@
 import datetime
 import os.path
 from django.contrib import admin
-from .models import Action, Box, Cycle, Photo, Report, Sensor
+from .models import Action, Box, Cycle, Photo, Report, Sensor, Plant
 
 
 @admin.register(Box)
@@ -76,4 +76,10 @@ class ActionAdmin(admin.ModelAdmin):
 class ReportAdmin(admin.ModelAdmin):
     list_display = ('cycle', 'created', 'text')
     list_filter = ('cycle__box', 'cycle',)
+    readonly_fields = ('modified', 'created')
+
+
+@admin.register(Plant)
+class PlantAdmin(admin.ModelAdmin):
+    list_display = ('name_en', 'name_la')
     readonly_fields = ('modified', 'created')
