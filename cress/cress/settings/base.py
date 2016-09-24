@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'main',
     'box',
-    'player',
 ]
 
 MIDDLEWARE_CLASSES = [
