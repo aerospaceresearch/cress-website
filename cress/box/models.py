@@ -26,6 +26,9 @@ class Cycle(TimeStampedModel):
     hourly_step = models.IntegerField(default=5, help_text="change per hour in percent")
     active = models.NullBooleanField()
 
+    class Meta:
+        ordering = ('-created', )
+
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
         return reverse('cycle', kwargs={'cycle': self.id})
