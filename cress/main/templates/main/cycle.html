@@ -24,13 +24,6 @@ user controlled plant growing
 	      {% if cycle_next %}
 	      <a href="{{ cycle_next.get_absolute_url }}" role="button">next cycle</a>
 	      {% endif %}
-	      {% for box in boxes %}
-	      {% if box != cycle.box %}
-	      {% with c=box.cycle.all|dictsort:"created"|last %}
-	      <a href="{{ c.get_absolute_url }}" role="button">{{ box }}</a>
-	      {% endwith %}
-	      {% endif %}
-	      {% endfor %}
             </div>
           </div>
         </div>
