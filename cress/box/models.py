@@ -34,7 +34,7 @@ class Cycle(TimeStampedModel):
         return reverse('cycle', kwargs={'cycle': self.id})
 
     def __str__(self):
-        return "{s.box} {s.start_date}".format(s=self)
+        return "{s.box} - {s.name} - {start_date}".format(s=self, start_date=self.start_date.date())
 
 
 class Photo(TimeStampedModel):
