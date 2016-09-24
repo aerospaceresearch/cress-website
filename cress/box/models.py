@@ -104,7 +104,7 @@ class Report(TimeStampedModel):
     text = models.TextField()
 
     class Meta:
-        ordering = ('-created', )
+        ordering = ('-cycle', )
 
     @property
     def text_as_html(self):
