@@ -28,6 +28,23 @@ user controlled plant growing
           </div>
         </div>
 
+	{% if image.image %}
+        <div class="col m4">
+          <div class="card small hoverable">
+            <div class="card-image">
+	      {% thumbnail '430x320' image.image %}
+	      <span class="card-title"></span>
+            </div>
+            <div class="card-content">
+	      <p>photo from {{ image.created }}</p>
+            </div>
+	    <div class="card-action">
+              <a href="{{ image.image.url }}">Image in full size</a>
+	    </div>
+          </div>
+	</div>
+	{% endif %}
+
 	{% if report %}
         <div class="col m4">
           <div class="card hoverable">
@@ -43,23 +60,6 @@ user controlled plant growing
 		</li>
 	      </ul>
             </div>
-          </div>
-	</div>
-	{% endif %}
-
-	{% if image.image %}
-        <div class="col m4">
-          <div class="card small hoverable">
-            <div class="card-image">
-	      {% thumbnail '430x320' image.image %}
-	      <span class="card-title"></span>
-            </div>
-            <div class="card-content">
-	      <p>photo from {{ image.created }}</p>
-            </div>
-	    <div class="card-action">
-              <a href="{{ image.image.url }}">Image in full size</a>
-	    </div>
           </div>
 	</div>
 	{% endif %}
