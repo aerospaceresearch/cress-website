@@ -18,6 +18,7 @@ class HomePageView(TemplateView):
         cycle_active = cycle_list.filter(active=True)
         context["cycle_list"] = cycle_list
         context["cycle_active"] = cycle_active
+        context["boxes"] = Box.objects.filter(id__in=[1,2])
         photos = []
         for cycle in cycle_active:
             p = Photo.objects.exclude(purged=True).filter(cycle=cycle).order_by('-created').first()

@@ -65,7 +65,7 @@ user controlled plant growing
   <div class="col m4">
     <div class="collection">
       {% for cycle in cycle_list %}
-      <a href="/cycle/{{ cycle.pk }}/" class="collection-item">{{ cycle.box }} - {{ cycle.name }}</a>
+      <a href="/cycle/{{ cycle.pk }}/" class="collection-item"><strong>{{ cycle.box }}</strong> - {{ cycle.name }}</a>
       {% endfor %}
     </div>
   </div>

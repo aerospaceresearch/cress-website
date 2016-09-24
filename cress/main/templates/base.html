@@ -30,6 +30,11 @@
 	  <div class="navbar-wrapper">
 	    <ul id="nav-main" class="left">
               <li><a href="{% url 'home' %}"><i class="material-icons left">home</i>Home</a></li>
+	      {% for box in boxes %}
+	      {% with c=box.cycle.all|dictsort:"created"|last %}
+	      <li><a href="{{ c.get_absolute_url }}">{{ box }}</a></li>
+	      {% endwith %}
+	      {% endfor %}
               {% if user.is_authenticated and request.user.is_staff %}
               <li><a href="{% url 'admin:index' %}">Admin</a></li>
               {% endif %}
