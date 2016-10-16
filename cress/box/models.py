@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import markdown
 from django.db import models
 from django.utils.safestring import mark_safe
@@ -22,7 +24,7 @@ class Cycle(TimeStampedModel):
     name = models.CharField(max_length=255, default="")
     box = models.ForeignKey('Box', related_name='cycle')
     water_start_level = models.IntegerField(default=50, help_text="start water level in percent")
-    uv_start_level = models.IntegerField(default=50, help_text="start uv level in percent")
+    uv_start_level = models.IntegerField(default=0, help_text="start uv level in percent")
     hourly_step = models.IntegerField(default=5, help_text="change per hour in percent")
     active = models.NullBooleanField()
 
@@ -105,7 +107,7 @@ class Action(TimeStampedModel):
 
 
 class Report(TimeStampedModel):
-    cycle = models.ForeignKey('Cycle', related_name='report', unique=True)
+    cycle = models.OneToOneField('Cycle', related_name='report')
     text = models.TextField()
 
     class Meta:

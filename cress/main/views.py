@@ -14,7 +14,7 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        cycle_list = Cycle.objects.filter(box__in=Box.objects.filter(pk__in=[1,2])).order_by("-created")
+        cycle_list = Cycle.objects.filter(box__in=Box.objects.filter(pk__in=[1,2,4])).order_by("-created")
         cycle_active = cycle_list.filter(active=True)
         context["cycle_list"] = cycle_list
         context["cycle_active"] = cycle_active
@@ -48,7 +48,7 @@ class CycleView(TemplateView):
         sensors = Sensor.objects.filter(cycle=cycle_active).order_by('-created')
         context["cycle_prev"] = Cycle.objects.filter(box=cycle_active.box).filter(id__lt=cycle_active.id).order_by('-created').first()
         context["cycle_next"] = Cycle.objects.filter(box=cycle_active.box).filter(id__gt=cycle_active.id).order_by('created').first()
-        context["boxes"] = Box.objects.filter(id__in=[1,2])
+        context["boxes"] = Box.objects.filter(id__in=[1,2,4])
         if photos.first():
             photo = photos.first()
             context['image'] = photo
