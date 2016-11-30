@@ -7,9 +7,6 @@ USER root
 RUN apt-get update && apt-get install -y ttf-dejavu-core libpq-dev python3-dev
 RUN easy_install3 -U pip
 
-# install uwsgi for production
-RUN pip3 install uwsgi
-
 ADD requirements.txt /opt/code/requirements.txt
 WORKDIR /opt/code
 RUN pip3 install --find-links=http://pypi.qax.io/wheels/ --trusted-host pypi.qax.io -Ur requirements.txt
