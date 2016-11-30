@@ -1,6 +1,6 @@
 django<1.11
 psycopg2==2.6.2
-django-extensions==1.6.1
+django-extensions==1.7.4
 gunicorn==19.4.1
 django-forms-bootstrap==3.0.1
 opbeat==3.1.3
