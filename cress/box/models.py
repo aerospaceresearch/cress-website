@@ -27,6 +27,7 @@ class Cycle(TimeStampedModel):
     uv_start_level = models.IntegerField(default=0, help_text="start uv level in percent")
     hourly_step = models.IntegerField(default=5, help_text="change per hour in percent")
     active = models.NullBooleanField()
+    soil = models.CharField(max_length=255)
 
     class Meta:
         ordering = ('-created', )
