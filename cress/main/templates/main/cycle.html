@@ -52,8 +52,9 @@ user controlled plant growing
 	      <ul class="collection">
 		<li class="collection-item">Start of cycle<span class="badge">{{ cycle.start_date|date:'Y-m-d' }}</span></li>
 		<li class="collection-item">End of cycle<span class="badge">{{ image.created|date:'Y-m-d' }}</span></li>
+                <li class="collection-item">Plant<span class="badge">{{ cycle.plant.name_en }} ({{ cycle.plant.name_la }})</span></span>
 		<li class="collection-item">
-		  <span class="title"><h5>Report</h5></span>
+		  <span class="title"><h6>Report</h6></span>
 		  <div class="report">
 		    {{ report.text_as_html }}
 		  </div>
@@ -154,7 +155,7 @@ window.onload = function () {
                 },
                 data: [
                 {
-                        showInLegend: true, 
+                        showInLegend: true,
                         legendText: "inside of box",
                         type: "line",
                         dataPoints: [
@@ -163,7 +164,7 @@ window.onload = function () {
                         ]
                 },
                 {
-                        showInLegend: true, 
+                        showInLegend: true,
                         legendText: "outside of box",
                         type: "line",
                         dataPoints: [
