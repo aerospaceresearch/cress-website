@@ -53,6 +53,17 @@ user controlled plant growing
 		<li class="collection-item">Start of cycle<span class="badge">{{ cycle.start_date|date:'Y-m-d' }}</span></li>
 		<li class="collection-item">End of cycle<span class="badge">{{ image.created|date:'Y-m-d' }}</span></li>
                 <li class="collection-item">Plant<span class="badge">{{ cycle.plant.name_en }} ({{ cycle.plant.name_la }})</span></span>
+                <li class="collection-item">Soil<span class="badge">{{ cycle.soil }}</span></span>
+	      </ul>
+            </div>
+          </div>
+	</div>
+
+      </div> <div class="row">
+        <div class="col m4">
+          <div class="card hoverable">
+            <div class="card-content">
+	      <ul class="collection">
 		<li class="collection-item">
 		  <span class="title"><h6>Report</h6></span>
 		  <div class="report">
@@ -64,6 +75,7 @@ user controlled plant growing
           </div>
 	</div>
 	{% endif %}
+
 
 	<div class="col m4 s4">
           <div class="card hoverable">
