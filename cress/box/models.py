@@ -28,10 +28,12 @@ class Cycle(TimeStampedModel):
     hourly_step = models.IntegerField(default=5, help_text="change per hour in percent")
     active = models.NullBooleanField()
     soil = models.CharField(max_length=255,
-                            choices=(('cotton wool (medical)', 'cotton wool (medical)'),
-                                     ('cotton wool (cosmetics)', 'cotton wool (cosmetics)'),
-                                     ('red clay (Seramis)', 'red clay (Seramis)'),
-                                     ('orchid soil (Orchideenerde)', 'orchid soil (Orchideenerde)'),
+                            null=True, blank=True,
+                            choices=(
+                                ('cotton wool (medical)', 'cotton wool (medical)'),
+                                ('cotton wool (cosmetics)', 'cotton wool (cosmetics)'),
+                                ('red clay (Seramis)', 'red clay (Seramis)'),
+                                ('orchid soil (Orchideenerde)', 'orchid soil (Orchideenerde)'),
                             ))
 
     class Meta:
