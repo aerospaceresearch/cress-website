@@ -11,8 +11,8 @@ class BoxAdmin(admin.ModelAdmin):
 
 @admin.register(Cycle)
 class CycleAdmin(admin.ModelAdmin):
-    list_display = ('box', 'name', 'plant', 'start_date', 'active')
-    list_filter = ('box', 'plant',)
+    list_display = ('box', 'name', 'plant', 'start_date', 'active', 'soil')
+    list_filter = ('box', 'plant', 'soil')
 
 
 def delete_file(obj):
