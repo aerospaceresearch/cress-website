@@ -36,9 +36,10 @@ class Cycle(TimeStampedModel):
                                 ('orchid soil (Orchideenerde)', 'orchid soil (Orchideenerde)'),
                             ))
     adc_used = models.CharField(max_length=255,
-                                null=True, blank=True,
+                                blank=True,
+                                default='adc16',
                                 choices=(
-                                    ('adc10', 'arduino'),
+                                    ('adc10', 'Arduino'),
                                     ('adc16', 'ADS1x15'),
                                 ))
 
