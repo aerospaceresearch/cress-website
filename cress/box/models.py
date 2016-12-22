@@ -35,6 +35,12 @@ class Cycle(TimeStampedModel):
                                 ('red clay (Seramis)', 'red clay (Seramis)'),
                                 ('orchid soil (Orchideenerde)', 'orchid soil (Orchideenerde)'),
                             ))
+    adc_used = models.CharField(max_length=255,
+                                null=True, blank=True,
+                                choices=(
+                                    ('adc10', 'arduino'),
+                                    ('adc16', 'ADS1x15'),
+                                ))
 
     class Meta:
         ordering = ('-created', )
