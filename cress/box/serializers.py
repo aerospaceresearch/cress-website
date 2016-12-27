@@ -1,6 +1,6 @@
 import datetime
 from rest_framework import serializers
-from .models import Photo, Cycle, Sensor, Box, Action
+from .models import Photo, Cycle, Sensor, Box, Action, Plant
 from django.utils import timezone
 
 
@@ -18,7 +18,7 @@ class PhotoSerializer(serializers.HyperlinkedModelSerializer):
         return super().create(validated_data)
 
 
-class SensorSerializer(serializers.HyperlinkedModelSerializer):
+class SensorCreateSerializer(serializers.HyperlinkedModelSerializer):
     box = serializers.IntegerField(write_only=True)
 
     class Meta:
@@ -102,3 +102,31 @@ class BoxActionSerializer(serializers.HyperlinkedModelSerializer):
         else:
             actions = [qs_action.filter(action_type=action).order_by('-modified').first() for action, _ in Action.ACTION_CHOICES]
         return [ActionSerializer(instance=i).data for i in actions]
+
+
+class PlantSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Plant
+        fields = ('id', 'name_en', 'name_la', 'wikipedia_en')
+
+
+class CycleSerializer(serializers.ModelSerializer):
+    plant = PlantSerializer()
+
+    class Meta:
+        model = Cycle
+        fields = ('id', 'start_date', 'name', 'soil', 'plant', 'box')
+
+
+class SensorSerializer(serializers.HyperlinkedModelSerializer):
+    seconds_from_cycle_start = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Sensor
+        fields = ('id', 'cycle', 'sensor_type', 'value_type', 'description',
+                  'position', 'unit', 'value', 'created', 'seconds_from_cycle_start')
+
+    def get_seconds_from_cycle_start(self, obj):
+        delta = (obj.created - obj.cycle.created)
+        return (delta.days * 3600 * 24) + delta.seconds

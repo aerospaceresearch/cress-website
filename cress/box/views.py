@@ -1,10 +1,10 @@
 from django.utils import timezone
 from rest_framework import (
-    mixins, viewsets, parsers, permissions, response
+    mixins, viewsets, parsers, permissions, response, pagination
 )
 
-from .models import Photo, Sensor, Box
-from .serializers import PhotoSerializer, SensorSerializer, BoxActionSerializer, BoxSerializer
+from .models import Photo, Sensor, Box, Cycle
+from .serializers import PhotoSerializer, SensorCreateSerializer, SensorSerializer, BoxActionSerializer, BoxSerializer, CycleSerializer
 
 
 class PhotoUploadViewSet(mixins.CreateModelMixin,
@@ -15,11 +15,26 @@ class PhotoUploadViewSet(mixins.CreateModelMixin,
     parser_classes = (parsers.MultiPartParser, parsers.FormParser,)
 
 
-class SensorUploadViewSet(mixins.CreateModelMixin,
-                          viewsets.GenericViewSet):
+class SensorPagination(pagination.PageNumberPagination):
+    page_size = 10
+
+
+class SensorViewSet(mixins.CreateModelMixin,
+                    mixins.ListModelMixin,
+                    viewsets.GenericViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = Sensor.objects.none()
-    serializer_class = SensorSerializer
+    serializer_class = SensorCreateSerializer
+    pagination_class = SensorPagination
+
+    def list(self, request, *args, **kwargs):
+        self.serializer_class = SensorSerializer
+        if self.request.GET.get('cycle'):
+            try:
+                self.queryset = Sensor.objects.filter(cycle_id=int(self.request.GET.get('cycle')))
+            except ValueError:
+                pass
+        return super().list(request, *args, **kwargs)
 
 
 class BoxActionViewSet(mixins.CreateModelMixin,
@@ -53,3 +68,11 @@ class BoxViewSet(mixins.ListModelMixin,
     permission_classes = (permissions.IsAuthenticated,)
     queryset = Box.objects.all()
     serializer_class = BoxSerializer
+
+
+class CycleViewSet(mixins.ListModelMixin,
+                   mixins.RetrieveModelMixin,
+                   viewsets.GenericViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = Cycle.objects.all()
+    serializer_class = CycleSerializer
