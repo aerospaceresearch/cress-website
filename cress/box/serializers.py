@@ -57,7 +57,7 @@ class BoxSerializer(serializers.ModelSerializer):
         sensor_list = []
         # FIXME: add code to get from all sensors newest value
         sensor_list.append(current_cycle.sensor.filter(sensor_type='FC28', value_type="watermark", position="inside").order_by('-modified').first())
-        return SensorSerializer(sensor_list, many=True).data
+        return SensorCreateSerializer(sensor_list, many=True).data
 
     class Meta:
         model = Box
