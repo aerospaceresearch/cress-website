@@ -4,7 +4,7 @@ MAINTAINER Stuttgart Python Interest Group
 EXPOSE 8012
 
 USER root
-RUN apt-get update && apt-get install -y ttf-dejavu-core libpq-dev python3-dev
+RUN apt-get update && apt-get install -y ttf-dejavu-core libpq-dev
 
 ADD requirements.txt /opt/code/requirements.txt
 WORKDIR /opt/code
