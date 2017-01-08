@@ -53,10 +53,10 @@ class Cycle(TimeStampedModel):
     def __str__(self):
         return "{s.box} - {s.name} - {start_date}".format(s=self, start_date=self.start_date.date())
 
-    def save(self, *args, **kwargs):
-        if self.active:
-            Cycle.objects.filter(box=self.box).filter(active=True).update(active=False)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if self.active:
+    #         Cycle.objects.filter(box=self.box).filter(active=True).update(active=False)
+    #     return super().save(*args, **kwargs)
 
 
 class Photo(TimeStampedModel):
