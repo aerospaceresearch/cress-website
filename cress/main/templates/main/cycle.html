@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load imagekit %}
 
 {% block page_title %}
 user controlled plant growing
@@ -41,7 +40,7 @@ user controlled plant growing
 	      <p>photo from {{ image.created }}</p>
             </div>
 	    <div class="card-action">
-              <a href="{{ image.image.url }}">Image in full size</a>
+              <a href="{{ image.photo.url }}">Image in full size</a>
 	    </div>
           </div>
 	</div>
@@ -124,7 +123,7 @@ user controlled plant growing
 	      <p>photo from {{ image.created }}</p>
             </div>
 	    <div class="card-action">
-              <a href="{{ image.image.url }}">Image in full size</a>
+              <a href="{{ image.photo.url }}">Image in full size</a>
 	    </div>
           </div>
 	</div>
