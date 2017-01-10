@@ -1,9 +1,14 @@
 # coding: utf-8
+import os.path
 
 import markdown
+from PIL import Image
+from io import BytesIO
+
 from django.db import models
 from django.utils.safestring import mark_safe
 from django_extensions.db.models import TimeStampedModel
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 class Box(TimeStampedModel):
@@ -59,8 +64,14 @@ class Cycle(TimeStampedModel):
     #     return super().save(*args, **kwargs)
 
 
+def image_directory(instance, filename):
+    return 'photo/c{0}/{1}'.format(instance.cycle.pk, filename)
+
+
 class Photo(TimeStampedModel):
-    image = models.ImageField(upload_to='photos', max_length=254)
+    image = models.ImageField(max_length=254, null=True, blank=True)
+    photo = models.ImageField(upload_to=image_directory, max_length=254, null=True, blank=True)
+    thumbnail = models.ImageField(max_length=254, null=True, blank=True)
     owner = models.ForeignKey('auth.User', related_name='image')
     cycle = models.ForeignKey('Cycle', related_name='photo')
     purged = models.BooleanField(default=False)
@@ -70,6 +81,48 @@ class Photo(TimeStampedModel):
 
     def __str__(self):
         return "{s.image}".format(s=self)
+
+    def create_thumbnail(self):
+        if not self.photo:
+            if not self.image:
+                return
+            try:
+                image = Image.open(BytesIO(self.image.read()))
+            except FileNotFoundError:
+                return
+
+            # Save the thumbnail
+            temp_handle = BytesIO()
+            image.save(temp_handle, 'jpeg')
+            temp_handle.seek(0)
+
+            suf = SimpleUploadedFile(os.path.split(self.image.name)[-1],
+                                     temp_handle.read(), content_type='image/jpeg')
+            self.photo.save(os.path.split(self.image.name)[-1],
+                            suf, save=False)
+
+        # Open original photo which we want to thumbnail using PIL's Image
+        try:
+            image = Image.open(BytesIO(self.photo.read()))
+        except FileNotFoundError:
+            return
+
+        image.thumbnail((430, 320), Image.ANTIALIAS)
+
+        # Save the thumbnail
+        temp_handle = BytesIO()
+        image.save(temp_handle, 'jpeg')
+        temp_handle.seek(0)
+
+        suf = SimpleUploadedFile(os.path.split(self.photo.name)[-1],
+                                 temp_handle.read(), content_type='image/jpeg')
+        self.thumbnail.save('thumbnail/c{0}/{1}'.format(self.cycle.pk,
+                                                        os.path.split(self.photo.name)[-1]),
+                            suf, save=False)
+
+    def save(self, *args, **kwargs):
+        self.create_thumbnail()
+        super().save(*args, **kwargs)
 
 
 class Sensor(TimeStampedModel):

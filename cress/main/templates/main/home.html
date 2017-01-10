@@ -29,8 +29,8 @@ automic plant growing using cheap hardware
         <div class="col m6">
           <div class="card small hoverable">
             <div class="card-image">
-              {% if production %}
-	      {% thumbnail '430x320' outside_image.image %}
+              {% if outside_image.thumbnail %}
+              <img width="430" height="320" src="{{ outside_image.thumbnail.url }}" />
               {% endif %}
 	      <span class="card-title"></span>
             </div>
@@ -49,8 +49,8 @@ automic plant growing using cheap hardware
           <div class="col m6">
 	    <div class="card small hoverable">
 	      <div class="card-image">
-                {% if production %}
-                {% thumbnail '430x320' photo.image %}
+                {% if photo.thumbnail %}
+                <img width="430" height="320" src="{{ photo.thumbnail.url }}" />
                 {% endif %}
 		<span class="card-title"></span>
 	      </div>

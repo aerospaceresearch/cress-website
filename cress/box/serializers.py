@@ -9,7 +9,7 @@ class PhotoSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Photo
-        fields = ('id', 'image', 'box')
+        fields = ('id', 'photo', 'box')
 
     def create(self, validated_data):
         box = validated_data.pop('box')
