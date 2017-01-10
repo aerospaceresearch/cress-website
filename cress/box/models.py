@@ -93,7 +93,7 @@ class Photo(TimeStampedModel):
 
             # Save the thumbnail
             temp_handle = BytesIO()
-            image.save(temp_handle, 'jpeg')
+            image.save(temp_handle, 'jpeg', quality=80)
             temp_handle.seek(0)
 
             suf = SimpleUploadedFile(os.path.split(self.image.name)[-1],
