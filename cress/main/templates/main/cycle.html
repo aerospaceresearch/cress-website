@@ -123,7 +123,9 @@ user controlled plant growing
 	      <p>photo from {{ image.created }}</p>
             </div>
 	    <div class="card-action">
+              {% if image.photo %}
               <a href="{{ image.photo.url }}">Image in full size</a>
+              {% endif %}
 	    </div>
           </div>
 	</div>
@@ -134,26 +136,6 @@ user controlled plant growing
 {% endblock content %}
 
 {% block bottom_js %}
-    <script type="text/javascript">
-      function load_image()
-      {
-        $.get('latest_photo', function (data)
-        {
-          $('#photo').attr('src', jQuery.parseJSON(data).url);
-          $('#photo_created').text(jQuery.parseJSON(data).created);
-        });
-      }
-
-      $(function() {
-        // 5 minutes
-        delay_ms = 1000*60*5;
-        // reload image on a timer
-        setInterval(load_image, delay_ms);
-        // also reload image when clicking on it
-        $('#photo').click(load_image);
-      });
-    </script>
-
 {# plot #}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js"></script>
 <script type="text/javascript">
