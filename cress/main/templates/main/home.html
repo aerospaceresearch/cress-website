@@ -37,7 +37,9 @@ automic plant growing using cheap hardware
 	      <p>photo from {{ outside_image.created }} </p>
             </div>
 	    <div class="card-action">
+              {% if outside_image.photo %}
               <a href="{{ outside_image.photo.url }}">Image in full size</a>
+              {% endif %}
 	    </div>
           </div>
         </div>
