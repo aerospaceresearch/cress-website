@@ -26,39 +26,9 @@ def delete_file(obj):
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
-    list_display = ('owner', 'image', 'cycle', 'created', 'not_purged')
-    list_filter = ('cycle', 'purged')
-    actions = ('purge_images', 'purge_images_most')
+    list_display = ('owner', 'photo', 'cycle', 'created')
+    list_filter = ('cycle', )
     readonly_fields = ('modified', 'created')
-
-    def not_purged(self, obj):
-        return not obj.purged
-    not_purged.boolean = True
-
-    def purge_images(self, request, queryset):
-        yesterday = datetime.date.today() - datetime.timedelta(days=1)
-        count = 0
-        for element in queryset.exclude(created__gte=yesterday):
-            count += delete_file(element)
-        if count:
-            msg = "%s images were successfully purged." % count
-        else:
-            msg = "No images were purged."
-        self.message_user(request, msg)
-    purge_images.short_description = "Purge selected images if older than yesterday"
-
-    def purge_images_most(self, request, queryset):
-        yesterday = datetime.date.today() - datetime.timedelta(days=1)
-        count = 0
-        excludes_minutes = [59, 0, 1, 29, 30, 31]
-        for element in queryset.exclude(created__gte=yesterday).exclude(created__minute__in=excludes_minutes):
-            count += delete_file(element)
-        if count:
-            msg = "%s images were successfully purged." % count
-        else:
-            msg = "No images were purged."
-        self.message_user(request, msg)
-    purge_images_most.short_description = "Purge selected images if older than yesterday and on full/half hour."
 
 
 @admin.register(Sensor)

@@ -69,37 +69,20 @@ def image_directory(instance, filename):
 
 
 class Photo(TimeStampedModel):
-    image = models.ImageField(max_length=254, null=True, blank=True)
     photo = models.ImageField(upload_to=image_directory, max_length=254, null=True, blank=True)
     thumbnail = models.ImageField(max_length=254, null=True, blank=True)
     owner = models.ForeignKey('auth.User', related_name='image')
     cycle = models.ForeignKey('Cycle', related_name='photo')
-    purged = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('-created', )
 
     def __str__(self):
-        return "{s.image}".format(s=self)
+        return "{s.photo}".format(s=self)
 
     def create_thumbnail(self):
         if not self.photo:
-            if not self.image:
-                return
-            try:
-                image = Image.open(BytesIO(self.image.read()))
-            except FileNotFoundError:
-                return
-
-            # Save the thumbnail
-            temp_handle = BytesIO()
-            image.save(temp_handle, 'jpeg', quality=80)
-            temp_handle.seek(0)
-
-            suf = SimpleUploadedFile(os.path.split(self.image.name)[-1],
-                                     temp_handle.read(), content_type='image/jpeg')
-            self.photo.save(os.path.split(self.image.name)[-1],
-                            suf, save=False)
+            return
 
         # Open original photo which we want to thumbnail using PIL's Image
         try:
