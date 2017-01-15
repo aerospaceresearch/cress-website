@@ -21,11 +21,11 @@ class HomePageView(TemplateView):
         context["boxes"] = Box.objects.filter(id__in=[1,2,4])
         photos = []
         for cycle in cycle_active:
-            p = Photo.objects.exclude(purged=True).filter(cycle=cycle).order_by('-created').first()
+            p = Photo.objects.filter(cycle=cycle).order_by('-created').first()
             if p:
                 photos.append(p)
         context['photos'] = photos
-        photos = Photo.objects.exclude(purged=True).filter(cycle__box=3).order_by('-created')
+        photos = Photo.objects.filter(cycle__box=3).order_by('-created')
         if photos:
             context['outside_image'] = photos.first()
         return context
@@ -44,7 +44,7 @@ class CycleView(TemplateView):
         cycle_active = cycle.first()
         context["cycle"] = cycle_active
         context["report"] = Report.objects.filter(cycle=cycle_active).first()
-        photos = Photo.objects.exclude(purged=True).filter(cycle=cycle_active).order_by('-created')
+        photos = Photo.objects.filter(cycle=cycle_active).order_by('-created')
         sensors = Sensor.objects.filter(cycle=cycle_active).order_by('-created')
         context["cycle_prev"] = Cycle.objects.filter(box=cycle_active.box).filter(id__lt=cycle_active.id).order_by('-created').first()
         context["cycle_next"] = Cycle.objects.filter(box=cycle_active.box).filter(id__gt=cycle_active.id).order_by('created').first()
@@ -56,7 +56,7 @@ class CycleView(TemplateView):
             context['older_images'] = []
             for day in range(1, days + 1):
                 time_threshold = photo.created - datetime.timedelta(days=day)
-                img = photos.exclude(purged=True).filter(created__lt=time_threshold).first()
+                img = photos.filter(created__lt=time_threshold).first()
                 if img:
                     context['older_images'].append(img)
         if sensors.first():

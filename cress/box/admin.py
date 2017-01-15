@@ -18,7 +18,6 @@ class CycleAdmin(admin.ModelAdmin):
 def delete_file(obj):
     if obj.image and os.path.isfile(obj.image.path):
         os.remove(obj.image.path)
-        obj.purged = True
         obj.save()
         return 1
     return 0
