@@ -24,7 +24,6 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'django_forms_bootstrap',
-    'imagekit',
 
     'rest_framework',
     'rest_framework.authtoken',

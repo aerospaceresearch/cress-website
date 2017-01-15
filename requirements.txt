@@ -10,5 +10,4 @@ tox==2.3.1
 pylama==7.0.7
 djangorestframework==3.4.7
 Pillow
-django-imagekit
 Markdown
