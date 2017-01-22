@@ -37,20 +37,19 @@ class CycleView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(CycleView, self).get_context_data(**kwargs)
-        cycle = Cycle.objects.filter(id=self.kwargs['cycle'])
+        cycle = Cycle.objects.filter(id=self.kwargs['cycle']).select_related().first()
         if not cycle:
             from django.http import Http404
             raise Http404("Cycle does not exist")
-        cycle_active = cycle.first()
-        context["cycle"] = cycle_active
-        context["report"] = Report.objects.filter(cycle=cycle_active).first()
-        photos = Photo.objects.filter(cycle=cycle_active).order_by('-created')
-        sensors = Sensor.objects.filter(cycle=cycle_active).order_by('-created')
-        context["cycle_prev"] = Cycle.objects.filter(box=cycle_active.box).filter(id__lt=cycle_active.id).order_by('-created').first()
-        context["cycle_next"] = Cycle.objects.filter(box=cycle_active.box).filter(id__gt=cycle_active.id).order_by('created').first()
+        context["cycle"] = cycle
+        context["report"] = Report.objects.filter(cycle=cycle).first()
+        photos = Photo.objects.filter(cycle=cycle).order_by('-created')
+        sensors = Sensor.objects.filter(cycle=cycle).select_related().order_by('-created')
+        context["cycle_prev"] = Cycle.objects.filter(box=cycle.box).filter(id__lt=cycle.id).order_by('-created').first()
+        context["cycle_next"] = Cycle.objects.filter(box=cycle.box).filter(id__gt=cycle.id).order_by('created').first()
         context["boxes"] = Box.objects.filter(id__in=[1,2,4])
-        if photos.first():
-            photo = photos.first()
+        photo = photos.first()
+        if photo:
             context['image'] = photo
             days = abs((photos.last().created - photo.created).days)
             context['older_images'] = []
@@ -60,13 +59,13 @@ class CycleView(TemplateView):
                 if img:
                     context['older_images'].append(img)
         if sensors.first():
-            if cycle_active.active:
-                count_of_sensors = 7 if cycle_active.box.id == 1 else 6
+            if cycle.active:
+                count_of_sensors = 7 if cycle.box.id == 1 else 6
                 context['sensor_list'] = sensors[:count_of_sensors]
             chart_data = sensors.filter(sensor_type="DHT22", value_type='humidity')
             # only one value per hour.
             chart_data = chart_data.filter(created__minute=chart_data.first().created.minute).order_by('created')
-            context['chart_data'] = chart_data
+            context['chart_data'] = chart_data.select_related()
         return context
 
 
