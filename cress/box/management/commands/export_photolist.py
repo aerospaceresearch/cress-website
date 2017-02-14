@@ -17,7 +17,7 @@ class Command(BaseCommand):
         if cycle:
             cycle_list = [cycle]
         else:
-            cycle_list = range(3, Cycle.objects.order_by("-pk").first().pk)
+            cycle_list = range(3, Cycle.objects.exclude(pk=9).order_by("-pk").first().pk)
         for cycle in cycle_list:
             with open("/opt/code/export/cycle_{}_photo.list".format(cycle), "w") as fp:
                 fp.write('"id";"filename"\n')
