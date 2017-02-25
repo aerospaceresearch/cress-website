@@ -53,11 +53,9 @@ class BoxSerializer(serializers.ModelSerializer):
 
     def get_sensors(self, obj):
         current_cycle = Cycle.objects.filter(active=True).filter(box__id=obj.pk).order_by('-modified').first()
-        # for now only one sensor_type
-        sensor_list = []
-        # FIXME: add code to get from all sensors newest value
-        sensor_list.append(current_cycle.sensor.filter(sensor_type='FC28', value_type="watermark", position="inside").order_by('-modified').first())
-        return SensorCreateSerializer(sensor_list, many=True).data
+        time_threshold = timezone.now() - datetime.timedelta(minutes=6)
+        sensor_list = current_cycle.sensor.filter(created__gt=time_threshold).order_by('-modified')
+        return SensorSerializer(sensor_list, many=True).data
 
     class Meta:
         model = Box
@@ -119,7 +117,7 @@ class CycleSerializer(serializers.ModelSerializer):
         fields = ('id', 'start_date', 'name', 'soil', 'plant', 'box')
 
 
-class SensorSerializer(serializers.HyperlinkedModelSerializer):
+class SensorSerializer(serializers.ModelSerializer):
     seconds_from_cycle_start = serializers.SerializerMethodField()
 
     class Meta:
