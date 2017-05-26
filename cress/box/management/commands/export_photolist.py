@@ -17,9 +17,11 @@ class Command(BaseCommand):
         if cycle:
             cycle_list = [cycle]
         else:
-            cycle_list = range(3, Cycle.objects.exclude(pk=9).order_by("-pk").first().pk)
+            cycle_list = range(3, Cycle.objects.exclude(pk=9).exclude(active=True).order_by("-pk").first().pk + 1)
         for cycle in cycle_list:
-            with open("/opt/code/export/cycle_{}_photo.list".format(cycle), "w") as fp:
+            fn = "/opt/code/export/cycle_{}_photo.list".format(cycle)
+            print(fn)
+            with open(fn, "w") as fp:
                 fp.write('"id";"filename"\n')
                 for element in qs.filter(cycle_id=cycle).order_by('created'):
                     if element.photo:
