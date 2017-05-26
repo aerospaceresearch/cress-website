@@ -23,7 +23,7 @@ class Command(BaseCommand):
             print(fn)
             with open(fn, "w") as fp:
                 fp.write('"id";"box";"box_cycle";"filename"\n')
-                for element in qs.filter(cycle_id=cycle).order_by('created'):
+                for element in qs.filter(cycle_id=cycle).order_by('created').select_related():
                     if element.photo:
                         box = '{:d}'.format(int(element.cycle.box.description.split(' ')[-1]))
                         box_cycle = element.cycle.name.split(' ')[-1]
