@@ -7,16 +7,29 @@ from .models import Photo, Sensor, Box, Cycle
 from .serializers import PhotoSerializer, SensorCreateSerializer, SensorSerializer, BoxActionSerializer, BoxSerializer, CycleSerializer
 
 
+class TenPerPagePagination(pagination.PageNumberPagination):
+    page_size = 10
+    max_page_size = 1000
+    page_size_query_param = 'page_size'
+
+
 class PhotoUploadViewSet(mixins.CreateModelMixin,
+                         mixins.ListModelMixin,
                          viewsets.GenericViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = Photo.objects.none()
     serializer_class = PhotoSerializer
     parser_classes = (parsers.MultiPartParser, parsers.FormParser,)
+    pagination_class = TenPerPagePagination
 
-
-class SensorPagination(pagination.PageNumberPagination):
-    page_size = 10
+    def list(self, request, *args, **kwargs):
+        self.serializer_class = PhotoSerializer
+        if self.request.GET.get('cycle'):
+            try:
+                self.queryset = Photo.objects.filter(cycle_id=int(self.request.GET.get('cycle')))
+            except ValueError:
+                pass
+        return super().list(request, *args, **kwargs)
 
 
 class SensorViewSet(mixins.CreateModelMixin,
@@ -25,7 +38,7 @@ class SensorViewSet(mixins.CreateModelMixin,
     permission_classes = (permissions.IsAuthenticated,)
     queryset = Sensor.objects.none()
     serializer_class = SensorCreateSerializer
-    pagination_class = SensorPagination
+    pagination_class = TenPerPagePagination
 
     def list(self, request, *args, **kwargs):
         self.serializer_class = SensorSerializer
