@@ -4,12 +4,19 @@ from .models import Photo, Cycle, Sensor, Box, Action, Plant
 from django.utils import timezone
 
 
-class PhotoSerializer(serializers.HyperlinkedModelSerializer):
+class SecondsFromStartMixin():
+    def get_seconds_from_cycle_start(self, obj):
+        delta = (obj.created - obj.cycle.created)
+        return (delta.days * 3600 * 24) + delta.seconds
+
+
+class PhotoSerializer(SecondsFromStartMixin, serializers.HyperlinkedModelSerializer):
     box = serializers.IntegerField(write_only=True)
+    seconds_from_cycle_start = serializers.SerializerMethodField()
 
     class Meta:
         model = Photo
-        fields = ('id', 'photo', 'box')
+        fields = ('id', 'photo', 'box', 'created', 'seconds_from_cycle_start')
 
     def create(self, validated_data):
         box = validated_data.pop('box')
@@ -117,14 +124,10 @@ class CycleSerializer(serializers.ModelSerializer):
         fields = ('id', 'start_date', 'name', 'soil', 'plant', 'box')
 
 
-class SensorSerializer(serializers.ModelSerializer):
+class SensorSerializer(SecondsFromStartMixin, serializers.ModelSerializer):
     seconds_from_cycle_start = serializers.SerializerMethodField()
 
     class Meta:
         model = Sensor
         fields = ('id', 'cycle', 'sensor_type', 'value_type', 'description',
                   'position', 'unit', 'value', 'created', 'seconds_from_cycle_start')
-
-    def get_seconds_from_cycle_start(self, obj):
-        delta = (obj.created - obj.cycle.created)
-        return (delta.days * 3600 * 24) + delta.seconds
