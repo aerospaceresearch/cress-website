@@ -78,6 +78,22 @@ user controlled plant growing
 	{% endif %}
 
 
+	{% for image in plots %}
+        <div class="col m4">
+          <div class="card hoverable">
+            <div class="card-image">
+              <img src="{{ image.plot.url }}" height="175"/>
+            </div>
+            <div class="card-content">
+	      <p>{{ image.description }}</p>
+            </div>
+	    <div class="card-action">
+              <a href="{{ image.plot.url }}">Image in full size</a>
+	    </div>
+          </div>
+	</div>
+        {% endfor %}
+
 	<div class="col m4 s4">
           <div class="card hoverable">
             <div class="card-content">

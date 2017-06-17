@@ -5,7 +5,7 @@ from django.views.generic.base import TemplateView
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 
-from box.models import Box, Cycle, Photo, Sensor, Report
+from box.models import Box, Cycle, Photo, Sensor, Report, Plot
 
 
 class HomePageView(TemplateView):
@@ -58,6 +58,7 @@ class CycleView(TemplateView):
                 img = photos.filter(created__lt=time_threshold).first()
                 if img:
                     context['older_images'].append(img)
+        context['plots'] = Plot.objects.filter(cycle=cycle).order_by('created')
         if sensors.first():
             if cycle.active:
                 count_of_sensors = 7 if cycle.box.id == 1 else 6

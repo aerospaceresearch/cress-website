@@ -1,7 +1,7 @@
 import datetime
 import os.path
 from django.contrib import admin
-from .models import Action, Box, Cycle, Photo, Report, Sensor, Plant
+from .models import Action, Box, Cycle, Photo, Report, Sensor, Plant, Plot
 
 
 @admin.register(Box)
@@ -26,6 +26,13 @@ def delete_file(obj):
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
     list_display = ('owner', 'photo', 'cycle', 'created')
+    list_filter = ('cycle', )
+    readonly_fields = ('modified', 'created')
+
+
+@admin.register(Plot)
+class PlotAdmin(admin.ModelAdmin):
+    list_display = ('plot', 'cycle', 'created', 'description')
     list_filter = ('cycle', )
     readonly_fields = ('modified', 'created')
 

@@ -3,8 +3,16 @@ from rest_framework import (
     mixins, viewsets, parsers, permissions, response, pagination
 )
 
-from .models import Photo, Sensor, Box, Cycle
-from .serializers import PhotoSerializer, SensorCreateSerializer, SensorSerializer, BoxActionSerializer, BoxSerializer, CycleSerializer
+from .models import Photo, Sensor, Box, Cycle, Plot
+from .serializers import (
+    BoxActionSerializer,
+    BoxSerializer,
+    CycleSerializer,
+    PhotoSerializer,
+    PlotSerializer,
+    SensorCreateSerializer,
+    SensorSerializer,
+)
 
 
 class TenPerPagePagination(pagination.PageNumberPagination):
@@ -27,6 +35,25 @@ class PhotoViewSet(mixins.CreateModelMixin,
         if self.request.GET.get('cycle'):
             try:
                 self.queryset = Photo.objects.filter(cycle_id=int(self.request.GET.get('cycle')))
+            except ValueError:
+                pass
+        return super().list(request, *args, **kwargs)
+
+
+class PlotViewSet(mixins.CreateModelMixin,
+                         mixins.ListModelMixin,
+                         viewsets.GenericViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = Plot.objects.none()
+    serializer_class = PlotSerializer
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser,)
+    pagination_class = TenPerPagePagination
+
+    def list(self, request, *args, **kwargs):
+        self.serializer_class = PhotoSerializer
+        if self.request.GET.get('cycle'):
+            try:
+                self.queryset = Plot.objects.filter(cycle_id=int(self.request.GET.get('cycle')))
             except ValueError:
                 pass
         return super().list(request, *args, **kwargs)

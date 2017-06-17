@@ -179,3 +179,20 @@ class Plant(TimeStampedModel):
 
     def __str__(self):
         return "{s.name_en} ({s.name_la})".format(s=self)
+
+
+def plot_image_directory(instance, filename):
+    return 'plot/c{0}/{1}'.format(instance.cycle.pk, filename)
+
+
+class Plot(TimeStampedModel):
+    plot = models.ImageField(upload_to=plot_image_directory, max_length=254, null=True, blank=True)
+    description = models.CharField(max_length=255)
+    cycle = models.ForeignKey('Cycle', related_name='plot')
+
+    class Meta:
+        ordering = ('-created', )
+        unique_together = (('cycle', 'description'), )
+
+    def __str__(self):
+        return "{s.plot} {s.description}".format(s=self)

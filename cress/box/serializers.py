@@ -1,6 +1,6 @@
 import datetime
 from rest_framework import serializers
-from .models import Photo, Cycle, Sensor, Box, Action, Plant
+from .models import Photo, Cycle, Sensor, Box, Action, Plant, Plot
 from django.utils import timezone
 
 
@@ -22,6 +22,27 @@ class PhotoSerializer(SecondsFromStartMixin, serializers.HyperlinkedModelSeriali
         box = validated_data.pop('box')
         validated_data['owner'] = self.context['request'].user
         validated_data['cycle'] = Cycle.objects.filter(active=True).filter(box__id=box).order_by('-modified').first()
+        return super().create(validated_data)
+
+
+class PlotSerializer(serializers.HyperlinkedModelSerializer):
+    cycle_id = serializers.IntegerField()
+
+    class Meta:
+        model = Plot
+        fields = ('id', 'plot', 'cycle_id', 'created', 'description')
+
+    def create(self, validated_data):
+        cycle_id = validated_data.pop('cycle_id')
+        cycle = Cycle.objects.filter(pk=cycle_id).first()
+        validated_data['cycle'] = cycle
+        # magic here, because the api should always be POST
+        existing = Plot.objects.filter(cycle=cycle, description=validated_data['description']).first()
+        if existing:
+            existing.plot.delete(save=False)
+            existing.plot = validated_data['plot']
+            existing.save()
+            return existing
         return super().create(validated_data)
 
 
