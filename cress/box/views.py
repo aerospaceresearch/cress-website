@@ -13,7 +13,7 @@ class TenPerPagePagination(pagination.PageNumberPagination):
     page_size_query_param = 'page_size'
 
 
-class PhotoUploadViewSet(mixins.CreateModelMixin,
+class PhotoViewSet(mixins.CreateModelMixin,
                          mixins.ListModelMixin,
                          viewsets.GenericViewSet):
     permission_classes = (permissions.IsAuthenticated,)
