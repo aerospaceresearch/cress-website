@@ -28,6 +28,7 @@ class Command(BaseCommand):
             c = plant.cycle_set.filter(pk__in=active_ids)
             if c:
                 data['plants'][plant.name_en] = {
+                    'name': plant.name_en,
                     'count': c.count()
                 }
 
