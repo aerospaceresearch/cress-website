@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 
 from box.models import Box, Cycle, Photo, Sensor, Report, Plot
+from ax.models import AxText
 
 
 class HomePageView(TemplateView):
@@ -28,6 +29,7 @@ class HomePageView(TemplateView):
         photos = Photo.objects.filter(cycle__box=3).order_by('-created').first()
         if photos:
             context['outside_image'] = photos
+        context['generated_text'] = AxText.objects.order_by('-modified').first()._text
         return context
 
 
