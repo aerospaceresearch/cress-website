@@ -2,10 +2,11 @@ from rest_framework import serializers
 
 
 class AXSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
+    id = serializers.CharField()
     name = serializers.CharField()
     text = serializers.CharField()
-    text_as_html = serializers.CharField()
+    html = serializers.CharField()
+    html_axite = serializers.CharField()
     uid = serializers.CharField()
     collection_name = serializers.CharField()
     collection_id = serializers.IntegerField()

@@ -47,7 +47,7 @@ class AXTextCreateViewSet(viewsets.ViewSet):
                 from .models import AxText
                 obj = AxText.objects.get(pk=serializer.data['uid'])
                 obj.response = serializer.data
-                obj._text = serializer.data['text_as_html']
+                obj._text = serializer.data['html']
                 obj.save()
                 return Response({'pk': obj.pk}, status=status.HTTP_201_CREATED)
             raise exceptions.ValidationError(serializer.errors)

@@ -19,4 +19,5 @@ class Command(BaseCommand):
         obj = AxText.objects.create()
         data['uid'] = obj.pk
         obj.data_sent = data
+        obj.save()
         obj.order_text()
