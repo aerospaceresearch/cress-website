@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'main',
     'box',
+    'ax',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -138,3 +139,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
 }
+
+# set on production for use of automated texts from ax-semantics
+AX_REFRESH_TOKEN = ''
+AX_WEBHOOK_TOKEN = ''
+AX_COLLECTION_ID = None

@@ -12,3 +12,5 @@ djangorestframework<3.7
 Pillow
 Markdown
 django-debug-toolbar
+requests
+ipython
