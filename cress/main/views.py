@@ -29,7 +29,7 @@ class HomePageView(TemplateView):
         photos = Photo.objects.filter(cycle__box=3).order_by('-created').first()
         if photos:
             context['outside_image'] = photos
-        context['generated_text'] = AxText.objects.order_by('-modified').first()._text
+        context['generated_text'] = AxText.objects.exclude(_text='').order_by('-modified').first()._text
         return context
 
 
