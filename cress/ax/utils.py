@@ -48,5 +48,5 @@ def fill_timings():
 
 def send_timings_to_report_api():
     # NOTE: this is only called once for old datasets
-    for axtiming in AxTiming.objects.exclude(return_code=0):
+    for axtiming in AxTiming.objects.filter(return_code=None):
         axtiming.push_to_api()

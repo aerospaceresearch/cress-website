@@ -16,5 +16,5 @@ class Command(BaseCommand):
         axtexts = AxText.objects.filter(modified__gte=(timezone.now() - datetime.timedelta(seconds=60 * 60)))
         for axtext in axtexts:
             ax_timing_create(axtext)
-        for axtiming in AxTiming.objects.exclude(return_code=0):
+        for axtiming in AxTiming.objects.filter(return_code=None)
             axtiming.push_to_api()
