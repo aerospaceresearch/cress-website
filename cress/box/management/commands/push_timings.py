@@ -15,6 +15,9 @@ class Command(BaseCommand):
         # all datasets modified in the last 60 minutes
         axtexts = AxText.objects.filter(modified__gte=(timezone.now() - datetime.timedelta(seconds=60 * 60)))
         for axtext in axtexts:
+            if axtext.axtiming_set.count():
+                # we already have a timing dataset
+                continue
             ax_timing_create(axtext)
         for axtiming in AxTiming.objects.filter(return_code=None):
             axtiming.push_to_api()
