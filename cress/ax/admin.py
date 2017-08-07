@@ -11,3 +11,4 @@ class AxTextAdmin(admin.ModelAdmin):
 class AxTimingAdmin(admin.ModelAdmin):
     list_display = ('pk', 'axtext', 'axite_id', 'full_generation_roundtrip', 'created')
     list_filter = ('return_code', )
+    raw_id_fields = ('axtext', )
