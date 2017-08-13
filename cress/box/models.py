@@ -39,6 +39,7 @@ class Cycle(TimeStampedModel):
                                 ('cotton wool (cosmetics)', 'cotton wool (cosmetics)'),
                                 ('red clay (Seramis)', 'red clay (Seramis)'),
                                 ('orchid soil (Orchideenerde)', 'orchid soil (Orchideenerde)'),
+                                ('potting soil', 'potting soil'),
                             ))
     adc_used = models.CharField(max_length=255,
                                 blank=True,
