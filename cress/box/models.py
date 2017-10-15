@@ -20,6 +20,7 @@ class Box(TimeStampedModel):
         return "{s.description}".format(s=self)
 
     class Meta:
+        ordering = ('description', )
         verbose_name_plural = 'Boxes'
 
 
@@ -177,6 +178,9 @@ class Plant(TimeStampedModel):
     name_en = models.CharField(max_length=255)
     name_la = models.CharField(max_length=255)
     wikipedia_en = models.URLField(null=True, blank=True)
+
+    class Meta:
+        ordering = ('name_en', )
 
     def __str__(self):
         return "{s.name_en} ({s.name_la})".format(s=self)
