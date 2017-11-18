@@ -27,8 +27,8 @@ class Command(BaseCommand):
         for plant in Plant.objects.all():
             c = plant.cycle_set.filter(pk__in=active_ids)
             if c:
-                data['plants'][plant.name_en] = {
-                    'name': plant.name_en,
+                data['plants'][plant.name_en.name_en.replace(' ', '_')] = {
+                    'name': plant,
                     'count': c.count()
                 }
 
