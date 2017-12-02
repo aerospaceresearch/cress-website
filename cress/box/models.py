@@ -26,9 +26,9 @@ class Box(TimeStampedModel):
 
 class Cycle(TimeStampedModel):
     start_date = models.DateTimeField()
-    plant = models.ForeignKey('Plant')
+    plant = models.ForeignKey('Plant', on_delete=models.PROTECT)
     name = models.CharField(max_length=255, default="")
-    box = models.ForeignKey('Box', related_name='cycle')
+    box = models.ForeignKey('Box', related_name='cycle', on_delete=models.PROTECT)
     water_start_level = models.IntegerField(default=50, help_text="start water level in percent")
     uv_start_level = models.IntegerField(default=0, help_text="start uv level in percent")
     hourly_step = models.IntegerField(default=5, help_text="change per hour in percent")
@@ -54,7 +54,7 @@ class Cycle(TimeStampedModel):
         ordering = ('-created', )
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
+        from django.urls import reverse
         return reverse('cycle', kwargs={'cycle': self.id})
 
     def __str__(self):
@@ -73,8 +73,8 @@ def image_directory(instance, filename):
 class Photo(TimeStampedModel):
     photo = models.ImageField(upload_to=image_directory, max_length=254, null=True, blank=True)
     thumbnail = models.ImageField(max_length=254, null=True, blank=True)
-    owner = models.ForeignKey('auth.User', related_name='image')
-    cycle = models.ForeignKey('Cycle', related_name='photo')
+    owner = models.ForeignKey('auth.User', related_name='image', on_delete=models.PROTECT)
+    cycle = models.ForeignKey('Cycle', related_name='photo', on_delete=models.PROTECT)
 
     class Meta:
         ordering = ('-created', )
@@ -134,7 +134,7 @@ class Sensor(TimeStampedModel):
                                      ('-', '-'),
                                  ))
     value = models.CharField(max_length=255)
-    cycle = models.ForeignKey('Cycle', related_name='sensor')
+    cycle = models.ForeignKey('Cycle', related_name='sensor', on_delete=models.PROTECT)
 
     def __str__(self):
         return "{s.sensor_type} {s.position}".format(s=self)
@@ -148,7 +148,7 @@ class Action(TimeStampedModel):
 
     action_type = models.CharField(max_length=100,
                                    choices=ACTION_CHOICES)
-    cycle = models.ForeignKey('Cycle', related_name='action')
+    cycle = models.ForeignKey('Cycle', related_name='action', on_delete=models.PROTECT)
     decision = models.IntegerField()
     start_time = models.DateTimeField()
 
@@ -160,7 +160,7 @@ class Action(TimeStampedModel):
 
 
 class Report(TimeStampedModel):
-    cycle = models.OneToOneField('Cycle', related_name='report')
+    cycle = models.OneToOneField('Cycle', related_name='report', on_delete=models.PROTECT)
     text = models.TextField()
 
     class Meta:
@@ -193,7 +193,7 @@ def plot_image_directory(instance, filename):
 class Plot(TimeStampedModel):
     plot = models.ImageField(upload_to=plot_image_directory, max_length=254, null=True, blank=True)
     description = models.CharField(max_length=255)
-    cycle = models.ForeignKey('Cycle', related_name='plot')
+    cycle = models.ForeignKey('Cycle', related_name='plot', on_delete=models.PROTECT)
 
     class Meta:
         ordering = ('-created', )

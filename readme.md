@@ -37,3 +37,11 @@ docker exec -ti cress python3 ./manage.py reset_db --settings=cress.settings.pro
 docker exec -ti cress python3 ./manage.py migrate --settings=cress.settings.production
 docker exec -ti cress python3 ./manage.py createsuperuser --settings=cress.settings.production
 ```
+
+### pipchecker
+
+check package versions:
+
+```
+docker-compose run web pipchecker -r ../requirements.txt
+```

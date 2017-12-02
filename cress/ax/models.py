@@ -31,7 +31,7 @@ class AxText(TimeStampedModel):
 
 
 class AxTiming(TimeStampedModel):
-    axtext = models.ForeignKey(AxText)
+    axtext = models.ForeignKey(AxText, on_delete=models.PROTECT)
     axite_id = models.UUIDField()
     full_generation_roundtrip = models.BigIntegerField()
     return_code = models.IntegerField(null=True, blank=True)
