@@ -3,6 +3,7 @@
 set -e
 
 git pull
+docker pull python:3.6
 docker build --tag=cress-prod .
 docker rm -f cress
 docker run -d --volumes-from cress-data --link cress-db:db -v `pwd`/cress/cress/settings/production.py:/opt/code/cress/cress/settings/production.py --restart=always --name cress cress-prod
