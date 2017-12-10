@@ -63,7 +63,7 @@ class CycleView(TemplateView):
         context['plots'] = Plot.objects.filter(cycle=cycle).order_by('created')
         if sensors.first():
             if cycle.active:
-                count_of_sensors = 7 if cycle.box.id == 1 else 6
+                count_of_sensors = 6 if cycle.box.id == 2 else 7
                 context['sensor_list'] = sensors[:count_of_sensors]
             chart_data = sensors.filter(sensor_type="DHT22", value_type='humidity')
             # only one value per hour.
