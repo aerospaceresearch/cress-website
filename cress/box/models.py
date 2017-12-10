@@ -116,6 +116,7 @@ class Sensor(TimeStampedModel):
                                             ('photoresistor', 'photoresistor'),
                                             ('photodiode', 'photodiode'),
                                             ('FC28', 'FC28'),   # watermark
+                                            ('capacitive-moisture', 'Capacitive Moisture'),   # watermark
                                         ))
     value_type = models.CharField(max_length=100,
                                   choices=(('temperature', 'temperature [DHT22]'),
