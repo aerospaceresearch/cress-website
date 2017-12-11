@@ -18,7 +18,7 @@ class AxText(TimeStampedModel):
         data = {
             "refresh_token": settings.AX_REFRESH_TOKEN
         }
-        r = requests.post("https://idm.ax-semantics.com/v1/token-exchange/", json=data)
+        r = requests.post("https://api.ax-semantics.com/v3/token-exchange/", json=data)
         access_token = r.json()['id_token']
 
         headers = {
@@ -26,7 +26,7 @@ class AxText(TimeStampedModel):
             'Authorization': 'JWT ' + access_token
         }
         collection_id = settings.AX_COLLECTION_ID
-        r = requests.post(f"https://api.ax-semantics.com/v2/collections/{collection_id}/document/", headers=headers, json=self.data_sent)
+        r = requests.post(f"https://api.ax-semantics.com/v3/collections/{collection_id}/document/", headers=headers, json=self.data_sent)
         assert r.status_code == 201
 
 
@@ -47,7 +47,7 @@ class AxTiming(TimeStampedModel):
             data = {
                 "refresh_token": settings.AX_REFRESH_TOKEN
             }
-            r = requests.post("https://idm.ax-semantics.com/v1/token-exchange/", json=data)
+            r = requests.post("https://api.ax-semantics.com/v3/token-exchange/", json=data)
             self._access_token = r.json()['id_token']
 
         return self._access_token
@@ -62,6 +62,6 @@ class AxTiming(TimeStampedModel):
             'timing_type': 'full_generation_roundtrip',
             'timing_value': self.full_generation_roundtrip,
         }
-        r = requests.post(f"https://report-api.ax-semantics.com/v1/generation-timing/", headers=headers, json=data)
+        r = requests.post(f"https://api.ax-semantics.com/v3/generation-timing/", headers=headers, json=data)
         self.return_code = r.status_code
         self.save(update_fields=['return_code'])
