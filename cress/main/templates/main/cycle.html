@@ -46,7 +46,7 @@ user controlled plant growing
 	</div>
 	{% endif %}
 
-	{% if report and not cycle.active %}
+	{% if not cycle.active %}
         <div class="col m4">
           <div class="card hoverable">
             <div class="card-content">
@@ -59,7 +59,9 @@ user controlled plant growing
             </div>
           </div>
 	</div>
+	{% endif %}
 
+	{% if report %}
       </div> <div class="row">
         <div class="col m4">
           <div class="card hoverable">
