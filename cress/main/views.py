@@ -22,13 +22,13 @@ class HomePageView(TemplateView):
         context["boxes"] = Box.objects.filter(id__in=[1,2,4])
         photos = []
         for cycle in cycle_active:
-            p = Photo.objects.filter(cycle=cycle).order_by('-created').first()
+            p = Photo.objects.exclude(removed=True).filter(cycle=cycle).order_by('-created').first()
             if p:
                 photos.append(p)
         context['photos'] = photos
-        photos = Photo.objects.filter(cycle__box=3).order_by('-created').first()
-        if photos:
-            context['outside_image'] = photos
+        # photos = Photo.objects.filter(cycle__box=3).order_by('-created').first()
+        # if photos:
+        #     context['outside_image'] = photos
         context['generated_text'] = AxText.objects.exclude(_text='').order_by('-modified').first()._text
         return context
 
@@ -45,7 +45,7 @@ class CycleView(TemplateView):
             raise Http404("Cycle does not exist")
         context["cycle"] = cycle
         context["report"] = Report.objects.filter(cycle=cycle).first()
-        photos = Photo.objects.filter(cycle=cycle).order_by('-created')
+        photos = Photo.objects.exclude(removed=True).filter(cycle=cycle).order_by('-created')
         sensors = Sensor.objects.filter(cycle=cycle).select_related().order_by('-created')
         context["cycle_prev"] = Cycle.objects.filter(box=cycle.box).filter(id__lt=cycle.id).order_by('-created').first()
         context["cycle_next"] = Cycle.objects.filter(box=cycle.box).filter(id__gt=cycle.id).order_by('created').first()
@@ -78,7 +78,7 @@ class CycleView(TemplateView):
 
 
 def latest_photo(request):
-    photo = Photo.objects.order_by('-created').first()
+    photo = Photo.objects.exclude(removed=True).order_by('-created').first()
     if photo:
         return HttpResponse(json.dumps({
             'url': photo.photo.url,

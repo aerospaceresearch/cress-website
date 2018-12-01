@@ -75,6 +75,8 @@ class Photo(TimeStampedModel):
     thumbnail = models.ImageField(max_length=254, null=True, blank=True)
     owner = models.ForeignKey('auth.User', related_name='image', on_delete=models.PROTECT)
     cycle = models.ForeignKey('Cycle', related_name='photo', on_delete=models.PROTECT)
+    # the new server only has some images, don't show the removed ones
+    removed = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('-created', )

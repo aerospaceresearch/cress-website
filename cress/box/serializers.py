@@ -16,7 +16,7 @@ class PhotoSerializer(SecondsFromStartMixin, serializers.HyperlinkedModelSeriali
 
     class Meta:
         model = Photo
-        fields = ('id', 'photo', 'box', 'created', 'seconds_from_cycle_start')
+        fields = ('id', 'photo', 'box', 'created', 'seconds_from_cycle_start', 'removed')
 
     def create(self, validated_data):
         box = validated_data.pop('box')
