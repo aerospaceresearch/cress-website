@@ -117,7 +117,6 @@ class BoxActionSerializer(serializers.HyperlinkedModelSerializer):
                         p = current_cycle.uv_start_level
                     elif action == 'Water':
                         p = current_cycle.water_start_level
-                # FIXME: change decision according to vote
                 d = {
                     'action_type': action,
                     'start_time': dt,
