@@ -68,12 +68,6 @@ automic plant growing using cheap hardware
       </div>
   </div>
   <div class="col m4">
-    <div class="card blue-grey darken-1 hoverable">
-      <div class="card-content white-text">
-        {{ generated_text|safe }}
-      </div>
-    </div>
-
     <div class="collection">
       {% for cycle in cycle_list %}
       <a href="/cycle/{{ cycle.pk }}/" class="collection-item"><strong>{{ cycle.box }}</strong> - {{ cycle.name }} ({{ cycle.plant.name_en }})</a>
