@@ -7,13 +7,13 @@ from ax.views import AXTextCreateViewSet
 
 
 router_v1 = routers.DefaultRouter()
-router_v1.register('action', BoxActionViewSet, base_name="action")
-router_v1.register('box', BoxViewSet, base_name="box")
-router_v1.register('cycle', CycleViewSet, base_name="cycle")
+router_v1.register('action', BoxActionViewSet, basename="action")
+router_v1.register('box', BoxViewSet, basename="box")
+router_v1.register('cycle', CycleViewSet, basename="cycle")
 router_v1.register('photo', PhotoViewSet)
 router_v1.register('plot', PlotViewSet)
 router_v1.register('sensor', SensorViewSet)
-router_v1.register('ax-text', AXTextCreateViewSet, base_name="ax")
+router_v1.register('ax-text', AXTextCreateViewSet, basename="ax")
 
 
 urlpatterns = [
